@@ -17,6 +17,9 @@ import ExperienceCard from "../components/ExperienceCard/ExperienceCard";
 let SCREEN_WIDTH = Dimensions.get("window").width;
 let SCREEN_HEIGHT = Dimensions.get("window").height;
 
+let HEADER_MAX_HEIGHT = (SCREEN_HEIGHT * 2) / 3;
+let HEADER_MIN_HEIGHT = 100;
+const scrollRangeForAnimation = 300;
 const IMAGES = [
   { id: 1, src: require("../assets/images/1.jpg") },
   { id: 2, src: require("../assets/images/2.jpg") },
@@ -30,7 +33,9 @@ const ExperienceList = class extends React.Component {
   constructor() {
     super();
     this.state = {
-      activeImage: null
+      activeImage: null,
+      scrollY: new Animated.Value(0),
+      transitionComplete: false
     };
   }
   componentWillMount() {
@@ -42,7 +47,6 @@ const ExperienceList = class extends React.Component {
   }
   openImage = id => {
     this.allImages[id].measure((x, y, width, height, pageX, pageY) => {
-      console.log(x, y, width, height, pageX, pageY);
       this.oldPosition = {
         x,
         y,
@@ -69,25 +73,29 @@ const ExperienceList = class extends React.Component {
             Animated.parallel([
               Animated.timing(this.position.x, {
                 toValue: dPageX,
-                duration: 300,
+                duration: 300
               }),
               Animated.timing(this.position.y, {
                 toValue: 0,
-                duration: 300,
+                duration: 300
               }),
               Animated.timing(this.dimensions.x, {
                 toValue: dWidth,
-                duration: 300,
+                duration: 300
               }),
               Animated.timing(this.dimensions.y, {
                 toValue: dHeight,
-                duration: 300,
+                duration: 300
               }),
               Animated.timing(this.animated, {
                 toValue: 1,
-                duration: 300,
+                duration: 300
               })
-            ]).start();
+            ]).start(() => {
+              // this.setState({
+              //   transitionComplete: true
+              // });
+            });
           });
         }
       );
@@ -98,38 +106,70 @@ const ExperienceList = class extends React.Component {
     Animated.parallel([
       Animated.timing(this.position.x, {
         toValue: this.oldPosition.pageX,
-        duration: 250,
+        duration: 250
       }),
       Animated.timing(this.position.y, {
         toValue: this.oldPosition.pageY,
-        duration: 250,
+        duration: 250
       }),
       Animated.timing(this.dimensions.x, {
         toValue: this.oldPosition.width,
-        duration: 250,
+        duration: 250
       }),
       Animated.timing(this.dimensions.y, {
         toValue: this.oldPosition.height,
-        duration: 250,
+        duration: 250
       }),
       Animated.timing(this.animated, {
         toValue: 0,
-        duration: 250,
+        duration: 250
       })
     ]).start(() => {
       setTimeout(() => {
         this.setState({
-          activeImage: null
+          activeImage: null,
+          scrollY: new Animated.Value(0),
+          // transitionComplete: false
         });
       }, 0);
     });
   };
 
+  onScrollEndSnapToEdge = event => {
+    const y = event.nativeEvent.contentOffset.y;
+    if (0 < y && y < scrollRangeForAnimation / 2) {
+      if (this._scrollView) {
+        this._scrollView.scrollTo({ y: 0 });
+      }
+    } else if (
+      scrollRangeForAnimation / 2 <= y &&
+      y < scrollRangeForAnimation
+    ) {
+      if (this._scrollView) {
+        this._scrollView.scrollTo({ y: scrollRangeForAnimation });
+      }
+    }
+  };
+
   render() {
-    const { activeImage } = this.state;
+    const { activeImage, scrollY, transitionComplete } = this.state;
+    const { onScrollEndSnapToEdge } = this;
+
+    const headerHeight = scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      extrapolate: "clamp"
+    });
+
+    const scrollLoc = scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+      outputRange: [0, -HEADER_MIN_HEIGHT],
+      extrapolate: "clamp"
+    });
+
     const activeImageStyle = {
       width: this.dimensions.x,
-      height: this.dimensions.y,
+      height: headerHeight,
       left: this.position.x,
       top: this.position.y
     };
@@ -144,16 +184,16 @@ const ExperienceList = class extends React.Component {
       outputRange: [0, 1, 1]
     });
 
-    const animatedMiniCardOpacity = this.animated.interpolate({
-      inputRange: [0, 0.7, 1],
-      outputRange: [1, 0, 0]
+    const maskBgStyle = this.animated.interpolate({
+      inputRange: [0, 0.8, 1],
+      outputRange: ["transparent", "transparent", "white"]
     });
 
     const animatedContentStyle = {
       opacity: animatedContentOpacity,
       transform: [
         {
-          translateY: animatedContentY
+          translateY: Animated.add(animatedContentY, scrollLoc)
         }
       ]
     };
@@ -161,6 +201,16 @@ const ExperienceList = class extends React.Component {
     const animatedCrossOpacity = {
       opacity: this.animated
     };
+
+    const onScroll = Animated.event([
+      {
+        nativeEvent: {
+          contentOffset: {
+            y: this.state.scrollY
+          }
+        }
+      }
+    ]);
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -179,7 +229,14 @@ const ExperienceList = class extends React.Component {
         <ScrollView style={styles.container} horizontal={true}>
           {IMAGES.map(image => {
             return (
-              <View key={image.id} style={{ flex: 1, alignItems: "center", backgroundColor: "transparent" }}>
+              <View
+                key={image.id}
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  backgroundColor: "transparent"
+                }}
+              >
                 <TouchableWithoutFeedback
                   onPress={() => this.openImage(image.id)}
                 >
@@ -200,44 +257,62 @@ const ExperienceList = class extends React.Component {
                     opacity: activeImage && activeImage.id === image.id ? 0 : 1
                   }}
                 > */}
-                  <ExperienceCard style={{ top: -75, width: (SCREEN_WIDTH - 48) * 0.8, opacity: activeImage && activeImage.id === image.id ? 0 : 1}} />
+                <ExperienceCard
+                  style={{
+                    top: -75,
+                    width: (SCREEN_WIDTH - 48) * 0.8,
+                    opacity: activeImage && activeImage.id === image.id ? 0 : 1
+                  }}
+                />
                 {/* </Animated.View> */}
               </View>
             );
           })}
         </ScrollView>
-        <View
-          style={StyleSheet.absoluteFill}
+        <Animated.View
+          style={[
+            StyleSheet.absoluteFill,
+            {backgroundColor: maskBgStyle}
+          ]}
           pointerEvents={activeImage ? "auto" : "none"}
         >
-          <View
-            style={{ flex: 2, zIndex: 1001 }}
-            ref={view => (this.imageView = view)}
+          <Animated.View
+            style={[
+              {
+                height: headerHeight,
+                zIndex: 1001
+              }
+            ]}
           >
-            <Animated.Image
-              source={activeImage ? activeImage.src : null}
-              style={[
-                {
-                  resizeMode: "cover",
-                  left: 0,
-                  top: 0,
-                  height: null,
-                  width: null
-                },
-                activeImageStyle
-              ]}
-            />
-            <TouchableWithoutFeedback onPress={() => this.closeImage()}>
-              <Animated.View
+            <View
+             
+              ref={view => (this.imageView = view)}
+            >
+              <Animated.Image
+                source={activeImage ? activeImage.src : null}
                 style={[
-                  { position: "absolute", top: 48, right: 16 },
-                  animatedCrossOpacity
+                  {
+                    resizeMode: "cover",
+                    left: 0,
+                    top: 0,
+                    height: null,
+                    width: null
+                  },
+                  activeImageStyle
                 ]}
-              >
-                <Ionicons name="ios-close-outline" size={48} color="white" />
-              </Animated.View>
-            </TouchableWithoutFeedback>
-          </View>
+              />
+              <TouchableWithoutFeedback onPress={() => this.closeImage()}>
+                <Animated.View
+                  style={[
+                    { position: "absolute", top: 48, right: 16 },
+                    animatedCrossOpacity
+                  ]}
+                >
+                  <Ionicons name="ios-close-outline" size={48} color="white" />
+                </Animated.View>
+              </TouchableWithoutFeedback>
+            </View>
+          </Animated.View>
           <Animated.View
             style={[
               {
@@ -250,18 +325,97 @@ const ExperienceList = class extends React.Component {
               animatedContentStyle
             ]}
           >
-            <Text style={{ fontSize: 24, paddingBottom: 10 }}>PoBo</Text>
-            <Text>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in
-            </Text>
+            <View style={{ flex: 1 }}>
+            <Animated.ScrollView
+              // style={{ flex: 1 }}
+              scrollEventThrottle={16}
+              // onScrollEndDrag={onScrollEndSnapToEdge}
+              onMomentumScrollEnd={onScrollEndSnapToEdge}
+              showsVerticalScrollIndicator={false}
+              ref={scrollView => {
+                this._scrollView = scrollView ? scrollView.getNode() : null;
+              }}
+              {...{ onScroll }}
+            >
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 24, paddingBottom: 10 }}>PoBo</Text>
+                <Text>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in
+                </Text>
+                <Text>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in
+                </Text>
+                <Text>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in
+                </Text>
+                <Text>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in
+                </Text>
+                <Text>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in
+                </Text>
+                <Text>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in
+                </Text>
+                <Text>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in
+                </Text>
+                <Text>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in
+                </Text>
+              </View>
+            </Animated.ScrollView>
+            </View>
           </Animated.View>
-        </View>
+        </Animated.View>
       </SafeAreaView>
     );
   }
@@ -279,7 +433,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   cardContainer: {
-    height: SCREEN_HEIGHT - 325,
+    height: SCREEN_HEIGHT - 350,
     width: SCREEN_WIDTH - 48,
     padding: 16
   },
