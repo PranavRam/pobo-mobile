@@ -1,10 +1,14 @@
 import React from "react";
-import { createStackNavigator, SafeAreaView } from "react-navigation";
+import { FluidNavigator } from 'react-navigation-fluid-transitions';
 import ExperienceListScreen from "./src/screens/ExperienceListScreen";
+import ExperienceDetailScreen from "./src/screens/ExperienceDetailsScreen";
 
-const RootStack = createStackNavigator({
+const RootStack = FluidNavigator({
   ExperienceList: {
     screen: ExperienceListScreen
+  },
+  ExperienceDetail: {
+    screen: ExperienceDetailScreen
   }
 });
 

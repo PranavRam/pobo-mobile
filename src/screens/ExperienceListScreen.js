@@ -9,6 +9,7 @@ import {
   Dimensions,
   Text
 } from "react-native";
+import { Transition } from 'react-navigation-fluid-transitions';
 
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-navigation";
@@ -26,10 +27,8 @@ const IMAGES = [
   { id: 3, src: require("../assets/images/3.jpg") }
 ];
 
-const ExperienceList = class extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
+const ExperienceListScreen = class extends React.Component {
+  static navigationOptions = { header: null };
   constructor() {
     super();
     this.state = {
@@ -46,6 +45,12 @@ const ExperienceList = class extends React.Component {
     this.animated = new Animated.Value(0);
   }
   openImage = id => {
+    return this.props.navigation.navigate('ExperienceDetail',{
+      experience: {
+        image: IMAGES.find(d => d.id === id)
+      }
+    })
+
     this.allImages[id].measure((x, y, width, height, pageX, pageY) => {
       this.oldPosition = {
         x,
@@ -128,7 +133,7 @@ const ExperienceList = class extends React.Component {
       setTimeout(() => {
         this.setState({
           activeImage: null,
-          scrollY: new Animated.Value(0),
+          scrollY: new Animated.Value(0)
           // transitionComplete: false
         });
       }, 0);
@@ -241,11 +246,14 @@ const ExperienceList = class extends React.Component {
                   onPress={() => this.openImage(image.id)}
                 >
                   <View style={styles.cardContainer}>
-                    <Image
+                  <Transition shared={`image-${image.id}`}>
+                  <Image
                       ref={ref => (this.allImages[image.id] = ref)}
                       source={image.src}
                       style={styles.image}
                     />
+      </Transition>
+                    
                   </View>
                 </TouchableWithoutFeedback>
                 {/* <Animated.View
@@ -270,10 +278,7 @@ const ExperienceList = class extends React.Component {
           })}
         </ScrollView>
         <Animated.View
-          style={[
-            StyleSheet.absoluteFill,
-            {backgroundColor: maskBgStyle}
-          ]}
+          style={[StyleSheet.absoluteFill, { backgroundColor: maskBgStyle }]}
           pointerEvents={activeImage ? "auto" : "none"}
         >
           <Animated.View
@@ -284,10 +289,7 @@ const ExperienceList = class extends React.Component {
               }
             ]}
           >
-            <View
-             
-              ref={view => (this.imageView = view)}
-            >
+            <View ref={view => (this.imageView = view)}>
               <Animated.Image
                 source={activeImage ? activeImage.src : null}
                 style={[
@@ -326,93 +328,93 @@ const ExperienceList = class extends React.Component {
             ]}
           >
             <View style={{ flex: 1 }}>
-            <Animated.ScrollView
-              // style={{ flex: 1 }}
-              scrollEventThrottle={16}
-              // onScrollEndDrag={onScrollEndSnapToEdge}
-              onMomentumScrollEnd={onScrollEndSnapToEdge}
-              showsVerticalScrollIndicator={false}
-              ref={scrollView => {
-                this._scrollView = scrollView ? scrollView.getNode() : null;
-              }}
-              {...{ onScroll }}
-            >
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 24, paddingBottom: 10 }}>PoBo</Text>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in
-                </Text>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in
-                </Text>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in
-                </Text>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in
-                </Text>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in
-                </Text>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in
-                </Text>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in
-                </Text>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in
-                </Text>
-              </View>
-            </Animated.ScrollView>
+              <Animated.ScrollView
+                // style={{ flex: 1 }}
+                scrollEventThrottle={16}
+                // onScrollEndDrag={onScrollEndSnapToEdge}
+                onMomentumScrollEnd={onScrollEndSnapToEdge}
+                showsVerticalScrollIndicator={false}
+                ref={scrollView => {
+                  this._scrollView = scrollView ? scrollView.getNode() : null;
+                }}
+                {...{ onScroll }}
+              >
+                <View style={{ flex: 1, padding: 16 }}>
+                  <Text style={{ fontSize: 24, paddingBottom: 10 }}>PoBo</Text>
+                  <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in
+                  </Text>
+                  <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in
+                  </Text>
+                  <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in
+                  </Text>
+                  <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in
+                  </Text>
+                  <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in
+                  </Text>
+                  <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in
+                  </Text>
+                  <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in
+                  </Text>
+                  <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in
+                  </Text>
+                </View>
+              </Animated.ScrollView>
             </View>
           </Animated.View>
         </Animated.View>
@@ -421,12 +423,12 @@ const ExperienceList = class extends React.Component {
   }
 };
 
-class ExperienceListScreen extends React.Component {
-  static navigationOptions = { header: null };
-  render() {
-    return <ExperienceList />;
-  }
-}
+// class ExperienceListScreen extends React.Component {
+//   static navigationOptions = { header: null };
+//   render() {
+//     return <ExperienceList />;
+//   }
+// }
 
 const styles = StyleSheet.create({
   container: {
