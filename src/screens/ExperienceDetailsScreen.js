@@ -18,7 +18,7 @@ let SCREEN_WIDTH = Dimensions.get("window").width;
 let SCREEN_HEIGHT = Dimensions.get("window").height;
 
 let HEADER_MAX_HEIGHT = (SCREEN_HEIGHT * 2) / 3;
-let HEADER_MIN_HEIGHT = 150;
+let HEADER_MIN_HEIGHT = 100;
 
 const ExperienceDetailScreen = class extends React.Component {
   static navigationOptions = { header: null };
@@ -33,7 +33,7 @@ const ExperienceDetailScreen = class extends React.Component {
   }
   closeImage = () => {
     this._parallax.refs["ScrollView"].getNode().scrollTo({ y: 0 });
-    this.props.navigation.goBack();
+    setTimeout(() => this.props.navigation.goBack(), 300);
   };
   render() {
     const { showSticky } = this.state;
@@ -55,59 +55,26 @@ const ExperienceDetailScreen = class extends React.Component {
         fadeOutForeground={false}
         renderScrollComponent={() => (
           <Animated.ScrollView
-            onMomentumScrollEnd={event => console.log(event.type)}
             showsVerticalScrollIndicator={false}
             style={{ marginTop: headerHeight }}
           />
         )}
-        renderFixedHeader={
-          showSticky
-            ? () => (
-                <View style={{ height: 150 }}>
-                  <Animated.View
-                    style={{
-                      height: HEADER_MAX_HEIGHT,
-                      width: SCREEN_WIDTH
-                    }}
-                  >
-                    <View>
-                      {/* <Transition shared={`image-${experience.image.id}`}> */}
-                      <Image
-                        source={experience.image.src}
-                        style={{
-                          height: HEADER_MAX_HEIGHT,
-                          width: "100%",
-                          resizeMode: "cover"
-                        }}
-                      />
-                      {/* </Transition> */}
-                    </View>
-                  </Animated.View>
-                </View>
-              )
-            : () => (
-                <View
-                  style={[{ flexDirection: "row", justifyContent: "flex-end" }]}
-                >
-                  <TouchableWithoutFeedback onPress={() => this.closeImage()}>
-                    <View style={[{ marginTop: 48, marginRight: 16 }]}>
-                      <Ionicons
-                        name="ios-close-outline"
-                        size={48}
-                        color="white"
-                      />
-                    </View>
-                  </TouchableWithoutFeedback>
-                </View>
-              )
-        }
+        renderFixedHeader={() => (
+          <View style={[{ flexDirection: "row", justifyContent: "flex-end" }]}>
+            <TouchableWithoutFeedback onPress={() => this.closeImage()}>
+              <View style={[{ marginTop: 48, marginRight: 16 }]}>
+                <Ionicons name="ios-close-outline" size={48} color="white" />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        )}
         renderBackground={() => (
           <Transition shared={`image-${experience.image.id}`}>
             <Image
               source={experience.image.src}
               style={{
                 height: HEADER_MAX_HEIGHT,
-                width: "100%",
+                width: SCREEN_WIDTH,
                 resizeMode: "cover"
               }}
             />
