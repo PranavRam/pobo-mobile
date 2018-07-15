@@ -2,7 +2,7 @@ import React from "react";
 import {
   View,
   Image,
-  ScrollView,
+  StatusBar,
   StyleSheet,
   TouchableWithoutFeedback,
   Animated,
@@ -21,8 +21,6 @@ let HEADER_MAX_HEIGHT = (SCREEN_HEIGHT * 2) / 3;
 let HEADER_MIN_HEIGHT = 100;
 
 const ExperienceDetailScreen = class extends React.Component {
-  static navigationOptions = { header: null };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -45,6 +43,11 @@ const ExperienceDetailScreen = class extends React.Component {
     });
     const experience = this.props.navigation.getParam("experience");
     return (
+      <View style={{flex: 1}}>
+      <StatusBar
+     backgroundColor="transparent"
+     barStyle="light-content"
+   />
       <ParallaxScrollView
         ref={parallax => (this._parallax = parallax)}
         onScroll={event =>
@@ -71,7 +74,7 @@ const ExperienceDetailScreen = class extends React.Component {
         renderBackground={() => (
           <Transition shared={`image-${experience.image.id}`}>
             <Image
-              source={experience.image.src}
+              source={{uri: 'https://article.images.consumerreports.org/c_lfill,ar_16:9,w_320/prod/content/dam/CRO%20Images%202017/Cars/August/CR-Cars-Hero-aaa-small-sedans-0817.jpg'}}
               style={{
                 height: HEADER_MAX_HEIGHT,
                 width: SCREEN_WIDTH,
@@ -152,6 +155,7 @@ const ExperienceDetailScreen = class extends React.Component {
           </Text>
         </View>
       </ParallaxScrollView>
+      </View>
     );
   }
 };

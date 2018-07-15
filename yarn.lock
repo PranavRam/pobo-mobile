@@ -5591,6 +5591,10 @@ react-native-parallax-scroll-view@^0.21.3:
   dependencies:
     prop-types "^15.6.0"
 
+react-native-platform-touchable@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-platform-touchable/-/react-native-platform-touchable-1.1.1.tgz#fde4acc65eea585d28b164d0c3716a42129a68e4"
+
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.7.0.tgz#38f5ab9368d6ef9e5d18ab64212938af3ec39421"
@@ -5752,6 +5756,12 @@ react-navigation-fluid-transitions@^0.2.2:
     lodash.chunk "*"
     lodash.sortby "*"
     prop-types "^15.6.0"
+
+react-navigation-header-buttons@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-navigation-header-buttons/-/react-navigation-header-buttons-1.2.1.tgz#847e25da0422068f6549b477f17360dae7f383b1"
+  dependencies:
+    react-native-platform-touchable "^1.1.1"
 
 react-navigation-tabs@0.5.1:
   version "0.5.1"

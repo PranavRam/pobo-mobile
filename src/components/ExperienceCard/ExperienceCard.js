@@ -47,6 +47,7 @@ export default class ExperienceCard extends React.Component {
           </View>
           <View style={{ flex: 2 }}>
             <FacePile numFaces={3} faces={FACES} circleSize={14} />
+            <Text style={{ fontSize: 8, marginTop:20 }}>Nightlife</Text>
           </View>
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -71,6 +72,8 @@ const styles = StyleSheet.create({
     opacity: 1,
     padding: 16,
     paddingTop: 8,
-    paddingBottom: 8
+    paddingBottom: 8,
+    shadowColor: 'black',
+    shadowOpacity: 0.3
   }
 });
