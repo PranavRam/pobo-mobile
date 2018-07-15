@@ -18,14 +18,21 @@ import {
   Text
 } from "react-native";
 
-const RootStack = FluidNavigator({
-  ExperienceList: {
-    screen: ExperienceListScreen
+const RootStack = FluidNavigator(
+  {
+    ExperienceList: {
+      screen: ExperienceListScreen
+    },
+    ExperienceDetail: {
+      screen: ExperienceDetailScreen
+    }
   },
-  ExperienceDetail: {
-    screen: ExperienceDetailScreen
+  {
+    navigationOptions: {
+      gesturesEnabled: false
+    }
   }
-});
+);
 
 // RootStack.navigationOptions = {
 //   // gesturesEnabled: false,
@@ -46,7 +53,9 @@ const CustomDrawerContentComponent = props => {
     ];
     return items.map(item => (
       <TouchableOpacity key={item} style={{ marginTop: 30 }}>
-        <Text style={{ color: "#c3c3c3", fontSize: 10 }}>{item.toUpperCase()}</Text>
+        <Text style={{ color: "#c3c3c3", fontSize: 10 }}>
+          {item.toUpperCase()}
+        </Text>
       </TouchableOpacity>
     ));
   };
@@ -68,7 +77,7 @@ const CustomDrawerContentComponent = props => {
           <DrawerItems {...props} />
           <View style={{ height: 100, justifyContent: "center" }}>
             <TouchableOpacity>
-              <Text style={{fontSize: 14}}>SIGN OUT</Text>
+              <Text style={{ fontSize: 14 }}>SIGN OUT</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -81,7 +90,7 @@ const CustomDrawerContentComponent = props => {
 };
 
 const RootDrawer = createDrawerNavigator(
-  { Home: {screen: RootStack}, Profile: {screen: ProfileScreen} },
+  { Home: { screen: RootStack }, Profile: { screen: ProfileScreen } },
   { contentComponent: CustomDrawerContentComponent }
 );
 export default class App extends React.Component {

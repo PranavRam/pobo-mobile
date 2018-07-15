@@ -64,6 +64,7 @@ const ExperienceListScreen = class extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <Header />
+        
         <View
           style={{
             height: 150,
@@ -108,7 +109,6 @@ const ExperienceListScreen = class extends React.Component {
                     </Transition>
                   </View>
                 </TouchableWithoutFeedback>
-
                 <ExperienceCard
                   style={{
                     top: -75,
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: null,
     width: null,
-    resizeMode: "cover",
+    // resizeMode: "cover",
     borderRadius: 20
   }
 });
