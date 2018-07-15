@@ -17,14 +17,26 @@ import { SafeAreaView } from "react-navigation";
 import ExperienceCard from "../components/ExperienceCard/ExperienceCard";
 let SCREEN_WIDTH = Dimensions.get("window").width;
 let SCREEN_HEIGHT = Dimensions.get("window").height;
-let RATIO = 2/3
+let RATIO = 2 / 3;
 let HEADER_MAX_HEIGHT = (SCREEN_HEIGHT * 2) / 3;
 let HEADER_MIN_HEIGHT = 100;
 const scrollRangeForAnimation = 300;
 const IMAGES = [
-  { id: 1, src: "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/1.jpg"},
-  { id: 2, src: "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/2.jpg" },
-  { id: 3, src: "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/3.jpg" }
+  {
+    id: 1,
+    src:
+      "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/1.jpg"
+  },
+  {
+    id: 2,
+    src:
+      "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/2.jpg"
+  },
+  {
+    id: 3,
+    src:
+      "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/3.jpg"
+  }
 ];
 
 const ExperienceListScreen = class extends React.Component {
@@ -64,7 +76,7 @@ const ExperienceListScreen = class extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <Header />
-        
+
         <View
           style={{
             height: 150,
@@ -101,8 +113,7 @@ const ExperienceListScreen = class extends React.Component {
                     <Transition shared={`image-${image.id}`}>
                       <Image
                         source={{
-                          uri:
-                            image.src
+                          uri: image.src
                         }}
                         style={styles.image}
                       />
@@ -110,6 +121,7 @@ const ExperienceListScreen = class extends React.Component {
                   </View>
                 </TouchableWithoutFeedback>
                 <ExperienceCard
+                  id={image.id}
                   style={{
                     top: -75,
                     width: (SCREEN_WIDTH - 80) * 0.8
@@ -123,9 +135,9 @@ const ExperienceListScreen = class extends React.Component {
     );
   }
 };
-const CARD_HEIGHT = SCREEN_HEIGHT - 350
-const FULL_RATIO =  (SCREEN_HEIGHT * 2/3) / SCREEN_WIDTH
-const CARD_WIDTH = CARD_HEIGHT / FULL_RATIO
+const CARD_HEIGHT = SCREEN_HEIGHT - 350;
+const FULL_RATIO = (SCREEN_HEIGHT * 2) / 3 / SCREEN_WIDTH;
+const CARD_WIDTH = CARD_HEIGHT / FULL_RATIO;
 
 const styles = StyleSheet.create({
   container: {
@@ -141,7 +153,7 @@ const styles = StyleSheet.create({
     height: null,
     width: null,
     resizeMode: "cover",
-    borderRadius: 20,
+    borderRadius: 20
   }
 });
 

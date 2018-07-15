@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import { Transition } from "react-navigation-fluid-transitions";
 import { Ionicons } from "@expo/vector-icons";
 import FacePile from "react-native-face-pile";
 const FACES = [
@@ -29,7 +30,7 @@ const FACES = [
 ];
 class ExperienceCard extends React.Component {
   render() {
-    const { circleSize, showButtons, scale } = this.props;
+    const { circleSize, showButtons, scale, id } = this.props;
     return (
       <View style={[styles.container, this.props.style]}>
         <View style={{ flex: 6, flexDirection: "row" }}>
@@ -59,23 +60,65 @@ class ExperienceCard extends React.Component {
         </View>
         {showButtons ? (
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around", marginTop: 8 }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              marginTop: 8
+            }}
           >
-            <Ionicons
-              name="ios-checkmark-circle"
-              size={40}
-              color="#b6e64b"
-            />
-            <Image
-              source={require("../../assets/images/icons/offer.png")}
-              fadeDuration={0}
-              style={{ width: 40, height: 40 }}
-            />
-            <Ionicons
-              name="ios-close-circle"
-              size={40}
-              color="#e13e56"
-            />
+            <Transition shared={`buttons-going-${id}`}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  height: 40,
+                  width: 40,
+                  borderRadius: 20,
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Ionicons
+                  name="ios-checkmark-circle"
+                  size={40}
+                  color="#b6e64b"
+                />
+              </View>
+            </Transition>
+            <Transition shared={`buttons-offers-${id}`}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  height: 40,
+                  width: 40,
+                  borderRadius: 20,
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Image
+                  source={require("../../assets/images/icons/offer.png")}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    flex: 1
+                  }}
+                />
+              </View>
+            </Transition>
+            <Transition shared={`buttons-not-${id}`}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  height: 40,
+                  width: 40,
+                  borderRadius: 20,
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Ionicons name="ios-close-circle" size={40} color="#e13e56" />
+              </View>
+            </Transition>
           </View>
         ) : null}
       </View>
@@ -86,7 +129,8 @@ class ExperienceCard extends React.Component {
 ExperienceCard.defaultProps = {
   circleSize: 14,
   showButtons: true,
-  scale: 1
+  scale: 1,
+  id: -1
 };
 const styles = StyleSheet.create({
   container: {

@@ -129,42 +129,60 @@ const ExperienceDetailScreen = class extends React.Component {
             zIndex: 100
           }}
         >
+          <Transition shared={`buttons-going-${experience.image.id}`}>
+            <View
+              style={{
+                backgroundColor: "white",
+                height: 60,
+                width: 60,
+                borderRadius: 30,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <Ionicons name="ios-checkmark-circle" size={60} color="#b6e64b" />
+            </View>
+          </Transition>
+          <Transition shared={`buttons-offers-${experience.image.id}`}>
           <View
-            style={{
-              backgroundColor: "white",
-              height: 60,
-              width: 60,
-              borderRadius: 30,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <Ionicons name="ios-checkmark-circle" size={60} color="#b6e64b" />
-          </View>
-          <Image
-            source={require("../assets/images/icons/offer.png")}
-            fadeDuration={0}
-            style={{
-              width: 60,
-              height: 60,
-              borderRadius: 30,
-              borderWidth: 5,
-              borderColor: "white"
-            }}
-          />
-          <View
-            style={{
-              backgroundColor: "white",
-              height: 60,
-              width: 60,
-              borderRadius: 30,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <Ionicons name="ios-close-circle" size={60} color="#e13e56" />
-          </View>
+              style={{
+                backgroundColor: "white",
+                height: 60,
+                width: 60,
+                borderRadius: 30,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+            <Image
+              source={require("../assets/images/icons/offer.png")}
+              style={{
+                width: 60,
+                height: 60,
+                flex: 1
+                // borderRadius: 30,
+                // borderWidth: 5,
+                // borderColor: "white"
+              }}
+            />
+            </View>
+          </Transition>
+          <Transition shared={`buttons-not-${experience.image.id}`}>
+            <View
+              style={{
+                backgroundColor: "white",
+                height: 60,
+                width: 60,
+                borderRadius: 30,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <Ionicons name="ios-close-circle" size={60} color="#e13e56" />
+            </View>
+          </Transition>
         </SafeAreaView>
+
         <StatusBar backgroundColor="transparent" barStyle="light-content" />
         <ParallaxScrollView
           ref={parallax => (this._parallax = parallax)}
@@ -203,18 +221,18 @@ const ExperienceDetailScreen = class extends React.Component {
             //     width: SCREEN_WIDTH
             //   }}
             // >
-              <Transition shared={`image-${experience.image.id}`}>
-                <Image
-                  source={{
-                    uri: experience.image.src
-                  }}
-                  style={{
-                    height: HEADER_MAX_HEIGHT,
-                    width: SCREEN_WIDTH,
-                    resizeMode: "cover"
-                  }}
-                />
-              </Transition>
+            <Transition shared={`image-${experience.image.id}`}>
+              <Image
+                source={{
+                  uri: experience.image.src
+                }}
+                style={{
+                  height: HEADER_MAX_HEIGHT,
+                  width: SCREEN_WIDTH,
+                  resizeMode: "cover"
+                }}
+              />
+            </Transition>
             // </View>
           )}
         >
