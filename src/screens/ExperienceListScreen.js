@@ -17,14 +17,14 @@ import { SafeAreaView } from "react-navigation";
 import ExperienceCard from "../components/ExperienceCard/ExperienceCard";
 let SCREEN_WIDTH = Dimensions.get("window").width;
 let SCREEN_HEIGHT = Dimensions.get("window").height;
-
+let RATIO = 2/3
 let HEADER_MAX_HEIGHT = (SCREEN_HEIGHT * 2) / 3;
 let HEADER_MIN_HEIGHT = 100;
 const scrollRangeForAnimation = 300;
 const IMAGES = [
-  { id: 1, src: require("../assets/images/4.jpg") },
-  { id: 2, src: require("../assets/images/4.jpg") },
-  { id: 3, src: require("../assets/images/4.jpg") }
+  { id: 1, src: "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/1.jpg"},
+  { id: 2, src: "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/2.jpg" },
+  { id: 3, src: "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/3.jpg" }
 ];
 
 const ExperienceListScreen = class extends React.Component {
@@ -102,7 +102,7 @@ const ExperienceListScreen = class extends React.Component {
                       <Image
                         source={{
                           uri:
-                            "https://article.images.consumerreports.org/c_lfill,ar_16:9,w_320/prod/content/dam/CRO%20Images%202017/Cars/August/CR-Cars-Hero-aaa-small-sedans-0817.jpg"
+                            image.src
                         }}
                         style={styles.image}
                       />
@@ -123,29 +123,25 @@ const ExperienceListScreen = class extends React.Component {
     );
   }
 };
-
-// class ExperienceListScreen extends React.Component {
-//   static navigationOptions = { header: null };
-//   render() {
-//     return <ExperienceList />;
-//   }
-// }
+const CARD_HEIGHT = SCREEN_HEIGHT - 350
+const FULL_RATIO =  (SCREEN_HEIGHT * 2/3) / SCREEN_WIDTH
+const CARD_WIDTH = CARD_HEIGHT / FULL_RATIO
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
   },
   cardContainer: {
-    height: SCREEN_HEIGHT - 350,
-    width: SCREEN_WIDTH - 80,
-    padding: 16
+    height: CARD_HEIGHT,
+    width: CARD_WIDTH,
+    margin: 16
   },
   image: {
     flex: 1,
     height: null,
     width: null,
-    // resizeMode: "cover",
-    borderRadius: 20
+    resizeMode: "cover",
+    borderRadius: 20,
   }
 });
 

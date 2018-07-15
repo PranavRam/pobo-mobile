@@ -176,12 +176,11 @@ const ExperienceDetailScreen = class extends React.Component {
           fadeOutForeground={false}
           renderScrollComponent={() => (
             <Animated.ScrollView
-            onMomentumScrollBegin={() => {
-              if(showImages) return
-              this.setState({showImages: true})
-              
-            }}
-            // onScrollBeginDrag={() => this.setState({showImages: true})}
+              onMomentumScrollBegin={() => {
+                if (showImages) return;
+                this.setState({ showImages: true });
+              }}
+              // onScrollBeginDrag={() => this.setState({showImages: true})}
               showsVerticalScrollIndicator={false}
               style={{ marginTop: headerHeight }}
             />
@@ -198,19 +197,25 @@ const ExperienceDetailScreen = class extends React.Component {
             </SafeAreaView>
           )}
           renderBackground={() => (
-            <Transition shared={`image-${experience.image.id}`}>
-              <Image
-                source={{
-                  uri:
-                    "https://article.images.consumerreports.org/c_lfill,ar_16:9,w_320/prod/content/dam/CRO%20Images%202017/Cars/August/CR-Cars-Hero-aaa-small-sedans-0817.jpg"
-                }}
-                style={{
-                  height: HEADER_MAX_HEIGHT,
-                  width: SCREEN_WIDTH,
-                  resizeMode: "cover"
-                }}
-              />
-            </Transition>
+            // <View
+            //   style={{
+            //     height: HEADER_MAX_HEIGHT,
+            //     width: SCREEN_WIDTH
+            //   }}
+            // >
+              <Transition shared={`image-${experience.image.id}`}>
+                <Image
+                  source={{
+                    uri: experience.image.src
+                  }}
+                  style={{
+                    height: HEADER_MAX_HEIGHT,
+                    width: SCREEN_WIDTH,
+                    resizeMode: "cover"
+                  }}
+                />
+              </Transition>
+            // </View>
           )}
         >
           <View style={{ flex: 1, alignItems: "center" }}>
@@ -266,10 +271,12 @@ const ExperienceDetailScreen = class extends React.Component {
               />
             </View>
             {showImages ? (
-              <View style={{ height: 250, width: SCREEN_WIDTH, padding: 16}}>
+              <View style={{ height: 250, width: SCREEN_WIDTH, padding: 16 }}>
                 <Masonry bricks={data} />
               </View>
-            ) : <Text>Loading Images</Text>}
+            ) : (
+              <Text>Loading Images</Text>
+            )}
           </View>
         </ParallaxScrollView>
       </View>
@@ -297,7 +304,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: null,
     width: null,
-    // resizeMode: "cover",
+    resizeMode: "cover",
     borderRadius: 20
   },
   map: {

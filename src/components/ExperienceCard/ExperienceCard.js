@@ -59,7 +59,7 @@ class ExperienceCard extends React.Component {
         </View>
         {showButtons ? (
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{ flexDirection: "row", justifyContent: "space-around", marginTop: 8 }}
           >
             <Ionicons
               name="ios-checkmark-circle"
