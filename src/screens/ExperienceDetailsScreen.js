@@ -144,7 +144,7 @@ const ExperienceDetailScreen = class extends React.Component {
             </View>
           </Transition>
           <Transition shared={`buttons-offers-${experience.image.id}`}>
-          <View
+            <View
               style={{
                 backgroundColor: "white",
                 height: 60,
@@ -154,17 +154,17 @@ const ExperienceDetailScreen = class extends React.Component {
                 alignItems: "center"
               }}
             >
-            <Image
-              source={require("../assets/images/icons/offer.png")}
-              style={{
-                width: 60,
-                height: 60,
-                flex: 1
-                // borderRadius: 30,
-                // borderWidth: 5,
-                // borderColor: "white"
-              }}
-            />
+              <Image
+                source={require("../assets/images/icons/offer.png")}
+                style={{
+                  width: 60,
+                  height: 60,
+                  flex: 1
+                  // borderRadius: 30,
+                  // borderWidth: 5,
+                  // borderColor: "white"
+                }}
+              />
             </View>
           </Transition>
           <Transition shared={`buttons-not-${experience.image.id}`}>
@@ -215,30 +215,54 @@ const ExperienceDetailScreen = class extends React.Component {
             </SafeAreaView>
           )}
           renderBackground={() => (
-            // <View
-            //   style={{
-            //     height: HEADER_MAX_HEIGHT,
-            //     width: SCREEN_WIDTH
-            //   }}
-            // >
-            <Transition shared={`image-${experience.image.id}`}>
-              <Image
-                source={{
-                  uri: experience.image.src
-                }}
+            <View>
+              <View
                 style={{
                   height: HEADER_MAX_HEIGHT,
-                  width: SCREEN_WIDTH,
-                  resizeMode: "cover"
+                  width: SCREEN_WIDTH
                 }}
-              />
-            </Transition>
-            // </View>
+              >
+                <Transition
+                  zIndex={1000}
+                  shared={`image-${experience.image.id}`}
+                >
+                  <Image
+                    source={{
+                      uri: experience.image.src
+                    }}
+                    style={{
+                      flex: 1,
+                      height: null,
+                      width: null,
+                      resizeMode: "cover"
+                    }}
+                  />
+                </Transition>
+              </View>
+              <View>
+                <Transition zIndex={500} shared={`card-${experience.image.id}`}>
+                  <View
+                    style={{
+                      position: "absolute",
+                      height: 0,
+                      left: 0,
+                      right: 0,
+                      top: HEADER_MAX_HEIGHT,
+                      opacity: 0
+                    }}
+                  />
+                </Transition>
+              </View>
+            </View>
           )}
         >
           <View style={{ flex: 1, alignItems: "center" }}>
-            {/* <Transition anchor={`image-${experience.image.id}`}> */}
+            {/* <Transition
+              zIndex={500}
+              shared={`card-${experience.image.id}`}
+            > */}
             <ExperienceCard
+              id={`${experience.image.id}-no-anim`}
               showButtons={false}
               circleSize={20}
               scale={1.3}
@@ -302,6 +326,14 @@ const ExperienceDetailScreen = class extends React.Component {
   }
 };
 
+const myCustomTransitionFunction = transitionInfo => {
+  const { progress, start, end } = transitionInfo;
+  const scaleInterpolation = progress.interpolate({
+    inputRange: [0, start, end, 1],
+    outputRange: [0, 0, 1, 1]
+  });
+  return { opacity: scaleInterpolation };
+};
 // class ExperienceDetailScreen extends React.Component {
 //   static navigationOptions = { header: null };
 //   render() {

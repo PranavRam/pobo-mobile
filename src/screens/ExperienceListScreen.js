@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Button,
   Dimensions,
-  Text
+  Text,
+  Animated
 } from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
 import HeaderButtons from "react-navigation-header-buttons";
@@ -40,11 +41,19 @@ const IMAGES = [
 ];
 
 const ExperienceListScreen = class extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedId: null
+    };
+    this._movement = new Animated.Value(-75);
+  }
+
   openDrawer = () => {
     this.props.navigation.openDrawer();
   };
   openImage = id => {
-    return this.props.navigation.navigate("ExperienceDetail", {
+    this.props.navigation.navigate("ExperienceDetail", {
       experience: {
         image: IMAGES.find(d => d.id === id)
       }
@@ -52,6 +61,7 @@ const ExperienceListScreen = class extends React.Component {
   };
 
   render() {
+    const { selectedId } = this.state;
     const Header = props => {
       return (
         <View
@@ -110,7 +120,7 @@ const ExperienceListScreen = class extends React.Component {
                   onPress={() => this.openImage(image.id)}
                 >
                   <View style={styles.cardContainer}>
-                    <Transition shared={`image-${image.id}`}>
+                    <Transition zIndex={500} shared={`image-${image.id}`}>
                       <Image
                         source={{
                           uri: image.src
@@ -120,13 +130,26 @@ const ExperienceListScreen = class extends React.Component {
                     </Transition>
                   </View>
                 </TouchableWithoutFeedback>
+                <Transition zIndex={1000} shared={`card-${image.id}`}>
+                  <ExperienceCard
+                    id={`${image.id}-duplicate`}
+                    style={[
+                      {
+                        top: -75,
+                        width: CARD_WIDTH * 0.8
+                      }
+                    ]}
+                  />
+                </Transition>
                 <ExperienceCard
-                  id={image.id}
-                  style={{
-                    top: -75,
-                    width: (SCREEN_WIDTH - 80) * 0.8
-                  }}
-                />
+                    id={`${image.id}`}
+                    style={[
+                      {
+                        top: -225,
+                        width: CARD_WIDTH * 0.8
+                      }
+                    ]}
+                  />
               </View>
             );
           })}
@@ -135,7 +158,16 @@ const ExperienceListScreen = class extends React.Component {
     );
   }
 };
-const CARD_HEIGHT = SCREEN_HEIGHT - 350;
+
+const myCustomTransitionFunction = transitionInfo => {
+  const { progress, start, end } = transitionInfo;
+  const scaleInterpolation = progress.interpolate({
+    inputRange: [0, start, end, 1],
+    outputRange: [0, 0, 0, 0]
+  });
+  return { opacity: scaleInterpolation };
+};
+const CARD_HEIGHT = SCREEN_HEIGHT - 400;
 const FULL_RATIO = (SCREEN_HEIGHT * 2) / 3 / SCREEN_WIDTH;
 const CARD_WIDTH = CARD_HEIGHT / FULL_RATIO;
 

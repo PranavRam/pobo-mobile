@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Animated } from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
 import { Ionicons } from "@expo/vector-icons";
 import FacePile from "react-native-face-pile";
@@ -28,36 +28,44 @@ const FACES = [
       "https://pbs.twimg.com/profile_images/885357926373654528/4tGgnF71_bigger.jpg"
   }
 ];
+
 class ExperienceCard extends React.Component {
   render() {
     const { circleSize, showButtons, scale, id } = this.props;
     return (
-      <View style={[styles.container, this.props.style]}>
+      <Animated.View style={[styles.container, this.props.style]}>
         <View style={{ flex: 6, flexDirection: "row" }}>
-          <View style={{ flex: 3, marginRight: 8 }}>
-            <View style={{ flex: 1, flexDirection: "row", marginBottom: 8 }}>
-              <Text
-                numberOfLines={2}
-                style={{
-                  fontSize: 18 * scale,
-                  flex: 1,
-                  flexWrap: "wrap",
-                  height: 30 * scale
-                }}
-              >
-                Solomon ft Uri
-              </Text>
+          {/* <Transition appear={myCustomTransitionFunction} disappear={myCustomTransitionFunction2} shared={`card-info-${id}`}> */}
+            <View style={{ flex: 3, marginRight: 8 }}>
+              <View style={{ flex: 1, flexDirection: "row", marginBottom: 8 }}>
+                <Text
+                  numberOfLines={2}
+                  style={{
+                    fontSize: 18 * scale,
+                    flex: 1,
+                    flexWrap: "wrap",
+                    height: 30 * scale
+                  }}
+                >
+                  Solomon ft Uri
+                </Text>
+              </View>
+              <Text style={{ fontSize: 12 * scale }}>Bluefrog</Text>
+              <Text style={{ fontSize: 12 * scale }}>11PM, 31st Aug</Text>
             </View>
-            <Text style={{ fontSize: 12 * scale }}>Bluefrog</Text>
-            <Text style={{ fontSize: 12 * scale }}>11PM, 31st Aug</Text>
-          </View>
+          {/* </Transition> */}
           <View style={{ flex: 2, alignItems: "center" }}>
-            <FacePile numFaces={3} faces={FACES} circleSize={circleSize} />
-            <Text style={{ fontSize: 8 * scale, marginTop: 20 }}>
-              Nightlife
-            </Text>
+            <Transition shared={`card-friends-${id}`}>
+              <FacePile numFaces={3} faces={FACES} circleSize={circleSize} />
+            </Transition>
+            <Transition shared={`card-type-${id}`}>
+              <Text style={{ fontSize: 8 * scale, marginTop: 20 }}>
+                Nightlife
+              </Text>
+            </Transition>
           </View>
         </View>
+        {/* </Transition> */}
         {showButtons ? (
           <View
             style={{
@@ -121,7 +129,7 @@ class ExperienceCard extends React.Component {
             </Transition>
           </View>
         ) : null}
-      </View>
+      </Animated.View>
     );
   }
 }
@@ -143,8 +151,26 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
     shadowColor: "black",
-    shadowOpacity: 0.3
+    shadowOpacity: 0.3,
+    zIndex: 100
   }
 });
 
+const myCustomTransitionFunction = transitionInfo => {
+  const { progress, start, end } = transitionInfo;
+  const scaleInterpolation = progress.interpolate({
+    inputRange: [0, start, end, 1],
+    outputRange: [0, 0, 0, 0],
+  });
+  return { opacity: 0 };
+};
+
+const myCustomTransitionFunction2 = transitionInfo => {
+  const { progress, start, end } = transitionInfo;
+  const scaleInterpolation = progress.interpolate({
+    inputRange: [0, start, end, 1],
+    outputRange: [1, 1, 1, 1],
+  });
+  return { opacity: 0 };
+};
 export default ExperienceCard;
