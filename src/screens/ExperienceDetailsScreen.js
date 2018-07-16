@@ -23,7 +23,7 @@ let HEADER_MAX_HEIGHT = (SCREEN_HEIGHT * 2) / 3;
 let HEADER_MIN_HEIGHT = 100;
 import ExperienceCard from "../components/ExperienceCard/ExperienceCard";
 import ExperienceInfo from "../components/ExperienceInfo/ExperienceInfo";
-
+import ExperienceButtons from "../components/ExperienceButtons/ExperienceButtons";
 let data = [
   {
     data: {
@@ -96,8 +96,8 @@ const ExperienceDetailScreen = class extends React.Component {
     this.scrollY = new Animated.Value(0);
   }
   closeImage = () => {
-    this._parallax.refs["ScrollView"].getNode().scrollTo({ y: 0 });
-    setTimeout(() => this.props.navigation.goBack(), 300);
+    // this._parallax.refs["ScrollView"].getNode().scrollTo({ y: 0 });
+    setTimeout(() => this.props.navigation.goBack());
   };
 
   // componentDidMount() {
@@ -118,71 +118,19 @@ const ExperienceDetailScreen = class extends React.Component {
     const experience = this.props.navigation.getParam("experience");
     return (
       <View style={{ flex: 1 }}>
+        {/* <SafeAreaView> */}
         <SafeAreaView
           style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
             position: "absolute",
             bottom: 0,
-            height: 60,
+            left: 0,
             width: SCREEN_WIDTH,
+            height: 60,
             zIndex: 100
           }}
         >
-          <Transition shared={`buttons-going-${experience.image.id}`}>
-            <View
-              style={{
-                backgroundColor: "white",
-                height: 60,
-                width: 60,
-                borderRadius: 30,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Ionicons name="ios-checkmark-circle" size={60} color="#b6e64b" />
-            </View>
-          </Transition>
-          <Transition shared={`buttons-offers-${experience.image.id}`}>
-            <View
-              style={{
-                backgroundColor: "white",
-                height: 60,
-                width: 60,
-                borderRadius: 30,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Image
-                source={require("../assets/images/icons/offer.png")}
-                style={{
-                  width: 60,
-                  height: 60,
-                  flex: 1
-                  // borderRadius: 30,
-                  // borderWidth: 5,
-                  // borderColor: "white"
-                }}
-              />
-            </View>
-          </Transition>
-          <Transition shared={`buttons-not-${experience.image.id}`}>
-            <View
-              style={{
-                backgroundColor: "white",
-                height: 60,
-                width: 60,
-                borderRadius: 30,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Ionicons name="ios-close-circle" size={60} color="#e13e56" />
-            </View>
-          </Transition>
+          <ExperienceButtons id={experience.image.id} MainIconWrapper={Transition} buttonSize={60}  />
         </SafeAreaView>
-
         <StatusBar backgroundColor="transparent" barStyle="light-content" />
         <ParallaxScrollView
           ref={parallax => (this._parallax = parallax)}
@@ -247,8 +195,9 @@ const ExperienceDetailScreen = class extends React.Component {
                       height: 0,
                       left: 0,
                       right: 0,
-                      top: HEADER_MAX_HEIGHT,
-                      opacity: 0
+                      top: HEADER_MAX_HEIGHT * 2,
+                      opacity: 0,
+                      borderRadius: 20
                     }}
                   />
                 </Transition>
@@ -262,8 +211,7 @@ const ExperienceDetailScreen = class extends React.Component {
               shared={`card-${experience.image.id}`}
             > */}
             <ExperienceCard
-              id={`${experience.image.id}-no-anim`}
-              showButtons={false}
+              id={`${experience.image.id}`}
               circleSize={20}
               scale={1.3}
               style={{

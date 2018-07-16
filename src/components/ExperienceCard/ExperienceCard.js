@@ -33,11 +33,12 @@ class ExperienceCard extends React.Component {
   render() {
     const { circleSize, showButtons, scale, id } = this.props;
     return (
-      <Animated.View style={[styles.container, this.props.style]}>
+      <View style={[styles.container, this.props.style]}>
         <View style={{ flex: 6, flexDirection: "row" }}>
-          {/* <Transition appear={myCustomTransitionFunction} disappear={myCustomTransitionFunction2} shared={`card-info-${id}`}> */}
-            <View style={{ flex: 3, marginRight: 8 }}>
-              <View style={{ flex: 1, flexDirection: "row", marginBottom: 8 }}>
+          {/* <Transition shared={`card-info-${id}`}> */}
+          <View style={{ flex: 3, marginRight: 8 }}>
+            <View style={{ flex: 1, flexDirection: "row", marginBottom: 8 }}>
+              {/* <Transition shared={`card-title-${id}`}> */}
                 <Text
                   numberOfLines={2}
                   style={{
@@ -49,87 +50,29 @@ class ExperienceCard extends React.Component {
                 >
                   Solomon ft Uri
                 </Text>
-              </View>
-              <Text style={{ fontSize: 12 * scale }}>Bluefrog</Text>
-              <Text style={{ fontSize: 12 * scale }}>11PM, 31st Aug</Text>
+              {/* </Transition> */}
             </View>
+            {/* <Transition shared={`card-location-${id}`}> */}
+              <Text style={{ fontSize: 12 * scale }}>Bluefrog</Text>
+            {/* </Transition> */}
+            {/* <Transition shared={`card-date-${id}`}> */}
+              <Text style={{ fontSize: 12 * scale }}>11PM, 31st Aug</Text>
+            {/* </Transition> */}
+          </View>
           {/* </Transition> */}
           <View style={{ flex: 2, alignItems: "center" }}>
-            <Transition shared={`card-friends-${id}`}>
-              <FacePile numFaces={3} faces={FACES} circleSize={circleSize} />
-            </Transition>
-            <Transition shared={`card-type-${id}`}>
-              <Text style={{ fontSize: 8 * scale, marginTop: 20 }}>
-                Nightlife
-              </Text>
-            </Transition>
+            {/* <Transition shared={`card-friends-${id}`}> */}
+            <FacePile numFaces={3} faces={FACES} circleSize={circleSize} />
+            {/* </Transition> */}
+            {/* <Transition shared={`card-type-${id}`}> */}
+            <Text style={{ fontSize: 8 * scale, marginTop: 20 }}>
+              Nightlife
+            </Text>
+            {/* </Transition> */}
           </View>
         </View>
         {/* </Transition> */}
-        {showButtons ? (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              marginTop: 8
-            }}
-          >
-            <Transition shared={`buttons-going-${id}`}>
-              <View
-                style={{
-                  backgroundColor: "white",
-                  height: 40,
-                  width: 40,
-                  borderRadius: 20,
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-              >
-                <Ionicons
-                  name="ios-checkmark-circle"
-                  size={40}
-                  color="#b6e64b"
-                />
-              </View>
-            </Transition>
-            <Transition shared={`buttons-offers-${id}`}>
-              <View
-                style={{
-                  backgroundColor: "white",
-                  height: 40,
-                  width: 40,
-                  borderRadius: 20,
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-              >
-                <Image
-                  source={require("../../assets/images/icons/offer.png")}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    flex: 1
-                  }}
-                />
-              </View>
-            </Transition>
-            <Transition shared={`buttons-not-${id}`}>
-              <View
-                style={{
-                  backgroundColor: "white",
-                  height: 40,
-                  width: 40,
-                  borderRadius: 20,
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-              >
-                <Ionicons name="ios-close-circle" size={40} color="#e13e56" />
-              </View>
-            </Transition>
-          </View>
-        ) : null}
-      </Animated.View>
+      </View>
     );
   }
 }
@@ -144,33 +87,16 @@ const styles = StyleSheet.create({
   container: {
     height: 150,
     width: 260,
-    borderRadius: 20,
     backgroundColor: "white",
     opacity: 1,
     padding: 16,
     paddingTop: 8,
     paddingBottom: 8,
-    shadowColor: "black",
-    shadowOpacity: 0.3,
+    // shadowColor: "black",
+    // shadowOpacity: 0.3,
+    borderColor: '#c3c3c3',
     zIndex: 100
   }
 });
 
-const myCustomTransitionFunction = transitionInfo => {
-  const { progress, start, end } = transitionInfo;
-  const scaleInterpolation = progress.interpolate({
-    inputRange: [0, start, end, 1],
-    outputRange: [0, 0, 0, 0],
-  });
-  return { opacity: 0 };
-};
-
-const myCustomTransitionFunction2 = transitionInfo => {
-  const { progress, start, end } = transitionInfo;
-  const scaleInterpolation = progress.interpolate({
-    inputRange: [0, start, end, 1],
-    outputRange: [1, 1, 1, 1],
-  });
-  return { opacity: 0 };
-};
 export default ExperienceCard;

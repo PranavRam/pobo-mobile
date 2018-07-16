@@ -11,6 +11,7 @@ import {
   Text,
   Animated
 } from "react-native";
+import ExperienceButtons from "../components/ExperienceButtons/ExperienceButtons";
 import { Transition } from "react-navigation-fluid-transitions";
 import HeaderButtons from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
@@ -132,16 +133,33 @@ const ExperienceListScreen = class extends React.Component {
                 </TouchableWithoutFeedback>
                 <Transition zIndex={1000} shared={`card-${image.id}`}>
                   <ExperienceCard
-                    id={`${image.id}-duplicate`}
-                    style={[
-                      {
-                        top: -75,
-                        width: CARD_WIDTH * 0.8
-                      }
-                    ]}
+                    id={`${image.id}`}
+                    style={{
+                      top: -75,
+                      width: CARD_WIDTH * 0.8,
+                      borderTopLeftRadius: 20,
+                      borderTopRightRadius: 20,
+                      height: 100,
+                      borderWidth: 0.5,
+                      borderColor: "#c3c3c3",
+                      borderBottomWidth: 0
+                    }}
                   />
                 </Transition>
-                <ExperienceCard
+                <View
+                  style={{
+                    height: 50,
+                    width: CARD_WIDTH * 0.8,
+                    top: -75,
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                    borderWidth: 0.5,
+                    borderColor: "#c3c3c3",
+                    borderTopWidth: 0
+                  }}
+                >
+                  <ExperienceButtons id={image.id} buttonSize={40} />
+                  {/* <ExperienceCard
                     id={`${image.id}`}
                     style={[
                       {
@@ -149,7 +167,8 @@ const ExperienceListScreen = class extends React.Component {
                         width: CARD_WIDTH * 0.8
                       }
                     ]}
-                  />
+                  /> */}
+                </View>
               </View>
             );
           })}
