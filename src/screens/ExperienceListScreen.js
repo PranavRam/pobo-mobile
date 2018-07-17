@@ -17,6 +17,9 @@ import HeaderButtons from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-navigation";
 import ExperienceCard from "../components/ExperienceCard/ExperienceCard";
+
+import Styleguide from "../theme/Styleguide";
+
 let SCREEN_WIDTH = Dimensions.get("window").width;
 let SCREEN_HEIGHT = Dimensions.get("window").height;
 let RATIO = 2 / 3;
@@ -53,6 +56,11 @@ const ExperienceListScreen = class extends React.Component {
   openDrawer = () => {
     this.props.navigation.openDrawer();
   };
+
+  showOffers = () => {
+    this.props.navigation.navigate("Offer");
+  };
+
   openImage = id => {
     this.props.navigation.navigate("ExperienceDetail", {
       experience: {
@@ -78,14 +86,18 @@ const ExperienceListScreen = class extends React.Component {
           <TouchableWithoutFeedback onPress={() => this.openDrawer()}>
             <Ionicons name="ios-menu" size={40} color="black" />
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              this.props.navigation.navigate("ExperienceCommited");
+            }}
+          >
             <Ionicons name="ios-infinite" size={40} color="black" />
           </TouchableWithoutFeedback>
         </View>
       );
     };
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
         <Header />
 
         <View
@@ -98,7 +110,7 @@ const ExperienceListScreen = class extends React.Component {
             paddingBottom: 8
           }}
         >
-          <Text style={{ fontSize: 34 }}>
+          <Text style={{ ...Styleguide.typography.title1 }}>
             Hey! Want to do something fun tonight?
           </Text>
         </View>
@@ -155,10 +167,15 @@ const ExperienceListScreen = class extends React.Component {
                     borderBottomRightRadius: 20,
                     borderWidth: 0.5,
                     borderColor: "#c3c3c3",
-                    borderTopWidth: 0
+                    borderTopWidth: 0,
+                    backgroundColor: "white"
                   }}
                 >
-                  <ExperienceButtons id={image.id} buttonSize={40} />
+                  <ExperienceButtons
+                    id={image.id}
+                    buttonSize={40}
+                    callbacks={[() => {}, this.showOffers, () => {}]}
+                  />
                   {/* <ExperienceCard
                     id={`${image.id}`}
                     style={[

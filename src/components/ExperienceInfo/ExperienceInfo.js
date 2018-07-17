@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text } from "react-native";
+import Styleguide from "../../theme/Styleguide";
 
 const ExperienceInfo = props => {
   return (
     <View style={{ padding: 16 }}>
-      <Text>
+      <Text style={{...Styleguide.typography.body}}>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea

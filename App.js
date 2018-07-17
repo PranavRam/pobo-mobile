@@ -2,23 +2,31 @@ import React from "react";
 import { FluidNavigator } from "react-navigation-fluid-transitions";
 import {
   createDrawerNavigator,
+  createStackNavigator,
   SafeAreaView,
   DrawerItems
 } from "react-navigation";
 import ExperienceListScreen from "./src/screens/ExperienceListScreen";
 import ExperienceDetailScreen from "./src/screens/ExperienceDetailsScreen";
 import ProfileScreen from "./src/screens/ProfileScreen/ProfileScreen";
+import OfferScreen from "./src/screens/OfferScreen/OfferScreen";
 import { Ionicons } from "@expo/vector-icons";
+import { Font, AppLoading } from "expo";
+import Images from "./src/components/images"
+
 import {
   StyleSheet,
   ScrollView,
   View,
   Image,
   TouchableOpacity,
-  Text
+  Text,
+  Button
 } from "react-native";
 
-const RootStack = FluidNavigator(
+const ProximaNovaExtraBold = require("./fonts/ProximaNova/ProximaNova-Extrabold.otf");
+const LatoRegular = require("./fonts/Lato/Lato-Regular.ttf");
+const ExperienceStack = FluidNavigator(
   {
     ExperienceList: {
       screen: ExperienceListScreen
@@ -28,19 +36,58 @@ const RootStack = FluidNavigator(
     }
   },
   {
+    transitionConfig: {
+      duration: 750
+    },
     navigationOptions: {
       gesturesEnabled: false
     }
   }
 );
 
-// RootStack.navigationOptions = {
-//   // gesturesEnabled: false,
-//   drawerLabel: "Yo",
-//   drawerIcon: ({ tintColor }) => (
-//     <Ionicons name="ios-close-circle-outline" size={40} color="red" />
-//   )
-// };
+class ExperienceCommitedScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ fontSize: 30 }}>This is a modal! Not!</Text>
+        <Button
+          onPress={() => this.props.navigation.goBack()}
+          title="Dismiss"
+        />
+      </View>
+    );
+  }
+}
+
+const MainExperience = createStackNavigator(
+  {
+    Main: {
+      screen: ExperienceStack
+    },
+    ExperienceCommited: {
+      screen: ExperienceCommitedScreen
+    }
+  },
+  { headerMode: "none" }
+);
+
+const Modal = createStackNavigator(
+  {
+    Main: {
+      screen: MainExperience
+    },
+    Offer: {
+      screen: OfferScreen
+    }
+  },
+  {
+    mode: "modal",
+    headerMode: "none",
+    cardStyle: {
+      backgroundColor: "white"
+    }
+  }
+);
 
 const CustomDrawerContentComponent = props => {
   const Footer = props => {
@@ -90,12 +137,41 @@ const CustomDrawerContentComponent = props => {
 };
 
 const RootDrawer = createDrawerNavigator(
-  { Home: { screen: RootStack }, Profile: { screen: ProfileScreen } },
-  { contentComponent: CustomDrawerContentComponent }
+  { Home: { screen: Modal }, Profile: { screen: ProfileScreen } },
+  {
+    contentComponent: CustomDrawerContentComponent,
+    contentOptions: {
+      activeBackgroundColor: "transparent"
+    }
+  }
 );
+
 export default class App extends React.Component {
+  state = {
+    appReady: false
+  };
+  ready = () => {
+    this.setState({
+      appReady: true
+    });
+  };
+  async componentDidMount() {
+    // StatusBar.setBarStyle("dark-content");
+    // if (Platform.OS === "android") {
+    //     StatusBar.setBackgroundColor("white");
+    // }
+    const fonts = Font.loadAsync({
+      "ProximaNova-ExtraBold": ProximaNovaExtraBold,
+      "Lato-Regular": LatoRegular
+    });
+    const images = Images.downloadAsync();
+    //const icons = loadIcons();
+    await Promise.all([fonts, ...images]);
+    this.ready();
+  }
   render() {
-    return <RootDrawer />;
+    const { appReady } = this.state;
+    return appReady ? <RootDrawer /> : <AppLoading />;
   }
 }
 

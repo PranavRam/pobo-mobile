@@ -1,26 +1,27 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Transition } from "react-navigation-fluid-transitions";
 
 class ExperienceButtons extends React.Component {
   render() {
-    const { id, buttonSize, backgroundColor, style } = this.props;
-
+    const { id, buttonSize, backgroundColor, style, callbacks } = this.props;
     const IconWrapper = props => {
       let Component = (
-        <View
-          style={{
-            backgroundColor: backgroundColor,
-            height: buttonSize,
-            width: buttonSize,
-            borderRadius: buttonSize / 2,
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          {props.children}
-        </View>
+        <TouchableOpacity onPress={props.onPress} {...{props}}>
+          <View
+            style={{
+              backgroundColor: backgroundColor,
+              height: buttonSize,
+              width: buttonSize,
+              borderRadius: buttonSize / 2,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            {props.children}
+          </View>
+        </TouchableOpacity>
       );
 
       return Component;
@@ -29,10 +30,13 @@ class ExperienceButtons extends React.Component {
 
     return (
       <View
-        style={[{
-          flexDirection: "row",
-          justifyContent: "space-around"
-        }, style]}
+        style={[
+          {
+            flexDirection: "row",
+            justifyContent: "space-around"
+          },
+          style
+        ]}
       >
         <Transition shared={`buttons-going-${id}`}>
           <IconWrapper id={`buttons-going-${id}`}>
@@ -44,7 +48,7 @@ class ExperienceButtons extends React.Component {
           </IconWrapper>
         </Transition>
         <Transition shared={`buttons-offers-${id}`}>
-          <IconWrapper id={`buttons-offers-${id}`}>
+          <IconWrapper id={`buttons-offers-${id}`} onPress={() => callbacks[1]()}>
             <Image
               source={require("../../assets/images/icons/offer.png")}
               style={{
@@ -73,7 +77,8 @@ ExperienceButtons.defaultProps = {
   // viewWidth: "100%",
   buttonSize: 16,
   // zIndex: 100,
-  backgroundColor: "white"
+  backgroundColor: "white",
+  callbacks: [() => {}, () => {}, () => {}]
 };
 
 export default ExperienceButtons;

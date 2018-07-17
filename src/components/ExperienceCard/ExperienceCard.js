@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Image, Animated } from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
 import { Ionicons } from "@expo/vector-icons";
 import FacePile from "react-native-face-pile";
+import Styleguide from "../../theme/Styleguide";
+
 const FACES = [
   {
     id: 0,
@@ -42,10 +44,9 @@ class ExperienceCard extends React.Component {
                 <Text
                   numberOfLines={2}
                   style={{
-                    fontSize: 18 * scale,
                     flex: 1,
                     flexWrap: "wrap",
-                    height: 30 * scale
+                    ...Styleguide.typography.headline
                   }}
                 >
                   Solomon ft Uri

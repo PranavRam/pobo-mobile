@@ -15,6 +15,7 @@ import { SafeAreaView } from "react-navigation";
 import { Transition } from "react-navigation-fluid-transitions";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import Masonry from "react-native-masonry";
+import Styleguide from "../theme/Styleguide";
 
 let SCREEN_WIDTH = Dimensions.get("window").width;
 let SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -100,6 +101,9 @@ const ExperienceDetailScreen = class extends React.Component {
     setTimeout(() => this.props.navigation.goBack());
   };
 
+  showOffers = () => {
+    this.props.navigation.navigate("Offer");
+  };
   // componentDidMount() {
   //   setTimeout(() => {
   //     this.setState({
@@ -122,14 +126,18 @@ const ExperienceDetailScreen = class extends React.Component {
         <SafeAreaView
           style={{
             position: "absolute",
-            bottom: 0,
+            bottom: 30,
             left: 0,
             width: SCREEN_WIDTH,
             height: 60,
             zIndex: 100
           }}
         >
-          <ExperienceButtons id={experience.image.id} MainIconWrapper={Transition} buttonSize={60}  />
+          <ExperienceButtons
+            callbacks={[() => {}, this.showOffers, () => {}]}
+            id={experience.image.id}
+            buttonSize={60}
+          />
         </SafeAreaView>
         <StatusBar backgroundColor="transparent" barStyle="light-content" />
         <ParallaxScrollView
@@ -242,14 +250,14 @@ const ExperienceDetailScreen = class extends React.Component {
               }}
             >
               <View style={{ justifyContent: "space-between" }}>
-                <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+                <Text style={{ ...Styleguide.typography.subhead }}>
                   Address
                 </Text>
                 <View>
-                  <Text style={{ fontSize: 12 }}>BLUE FROG</Text>
-                  <Text style={{ fontSize: 12 }}>Mathuradas Mill Compound</Text>
-                  <Text style={{ fontSize: 12 }}>Senapati Bapat Marg</Text>
-                  <Text style={{ fontSize: 12 }}>Lower Parel Mumbai</Text>
+                  <Text style={{ ...Styleguide.typography.caption }}>BLUE FROG</Text>
+                  <Text style={{ ...Styleguide.typography.caption }}>Mathuradas Mill Compound</Text>
+                  <Text style={{ ...Styleguide.typography.caption }}>Senapati Bapat Marg</Text>
+                  <Text style={{ ...Styleguide.typography.caption }}>Lower Parel Mumbai</Text>
                 </View>
               </View>
               <Image
