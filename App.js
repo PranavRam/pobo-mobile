@@ -1,6 +1,7 @@
 import React from "react";
 import { FluidNavigator } from "react-navigation-fluid-transitions";
 import {
+  createSwitchNavigator,
   createDrawerNavigator,
   createStackNavigator,
   SafeAreaView,
@@ -10,6 +11,10 @@ import ExperienceListScreen from "./src/screens/ExperienceListScreen";
 import ExperienceDetailScreen from "./src/screens/ExperienceDetailsScreen";
 import ProfileScreen from "./src/screens/ProfileScreen/ProfileScreen";
 import OfferScreen from "./src/screens/OfferScreen/OfferScreen";
+
+import SignInScreen from "./src/screens/SignInScreen/SignInScreen";
+import UserRegistrationScreen from "./src/screens/UserRegistrationScreen/UserRegistrationScreen";
+
 import { Ionicons } from "@expo/vector-icons";
 import { Font, AppLoading } from "expo";
 import Images from "./src/components/images"
@@ -146,6 +151,18 @@ const RootDrawer = createDrawerNavigator(
   }
 );
 
+const AuthStack = createStackNavigator({ SignIn: SignInScreen, UserRegistration: UserRegistrationScreen });
+
+const AppStack = createSwitchNavigator(
+  {
+    App: RootDrawer,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'Auth',
+  }
+);
+
 export default class App extends React.Component {
   state = {
     appReady: false
@@ -171,7 +188,7 @@ export default class App extends React.Component {
   }
   render() {
     const { appReady } = this.state;
-    return appReady ? <RootDrawer /> : <AppLoading />;
+    return appReady ? <AppStack /> : <AppLoading />;
   }
 }
 
