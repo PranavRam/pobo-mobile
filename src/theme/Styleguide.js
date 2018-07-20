@@ -30,7 +30,7 @@ const styleGuide = {
         callout: {
             fontSize: 16,
             lineHeight: 20,
-            fontFamily: "SFProText-Regular"
+            fontFamily: "Lato-Regular"
         },
         caption: {
             fontSize: 11,
@@ -40,7 +40,7 @@ const styleGuide = {
         footnote: {
             fontSize: 13,
             lineHeight: 18,
-            fontFamily: "SFProText-Regular",
+            fontFamily: "Lato-Regular",
             color: darkGray
         },
         headline: {

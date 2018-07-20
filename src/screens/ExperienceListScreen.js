@@ -154,7 +154,7 @@ const ExperienceListScreen = class extends React.Component {
                       height: 100,
                       borderWidth: 0.5,
                       borderColor: "#c3c3c3",
-                      borderBottomWidth: 0
+                      borderBottomWidth: 0,
                     }}
                   />
                 </Transition>
@@ -195,14 +195,6 @@ const ExperienceListScreen = class extends React.Component {
   }
 };
 
-const myCustomTransitionFunction = transitionInfo => {
-  const { progress, start, end } = transitionInfo;
-  const scaleInterpolation = progress.interpolate({
-    inputRange: [0, start, end, 1],
-    outputRange: [0, 0, 0, 0]
-  });
-  return { opacity: scaleInterpolation };
-};
 const CARD_HEIGHT = SCREEN_HEIGHT - 400;
 const FULL_RATIO = (SCREEN_HEIGHT * 2) / 3 / SCREEN_WIDTH;
 const CARD_WIDTH = CARD_HEIGHT / FULL_RATIO;
@@ -214,7 +206,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     height: CARD_HEIGHT,
     width: CARD_WIDTH,
-    margin: 16
+    margin: Styleguide.spacing.small
   },
   image: {
     flex: 1,

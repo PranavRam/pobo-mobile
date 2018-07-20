@@ -46,7 +46,8 @@ class ExperienceCard extends React.Component {
                   style={{
                     flex: 1,
                     flexWrap: "wrap",
-                    ...Styleguide.typography.headline
+                    ...Styleguide.typography.headline,
+                    fontSize: Styleguide.typography.headline.fontSize * scale
                   }}
                 >
                   Solomon ft Uri
@@ -54,10 +55,12 @@ class ExperienceCard extends React.Component {
               {/* </Transition> */}
             </View>
             {/* <Transition shared={`card-location-${id}`}> */}
-              <Text style={{ fontSize: 12 * scale }}>Bluefrog</Text>
+              <Text style={{ ...Styleguide.typography.footnote,
+                    fontSize: Styleguide.typography.footnote.fontSize * scale, marginBottom: 4 }}>Bluefrog</Text>
             {/* </Transition> */}
             {/* <Transition shared={`card-date-${id}`}> */}
-              <Text style={{ fontSize: 12 * scale }}>11PM, 31st Aug</Text>
+              <Text style={{ ...Styleguide.typography.footnote,
+                    fontSize: Styleguide.typography.footnote.fontSize * scale  }}>11PM, 31st Aug</Text>
             {/* </Transition> */}
           </View>
           {/* </Transition> */}
