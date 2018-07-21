@@ -6,16 +6,19 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  Text
+  Text,
+  Button,
+  ScrollView,
+  Dimensions
 } from "react-native";
 import HeaderButtons from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-navigation";
+import UserPreferencesScreen from '../UserPreferencesScreen/UserPreferencesScreen'
 
-const UserRegistrationScreen = class extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
+const { width } = Dimensions.get("window");
+
+const UserRegistrationInfo = class extends React.Component {
   render() {
     const EmailInput = props => {
       return (
@@ -101,8 +104,8 @@ const UserRegistrationScreen = class extends React.Component {
             }}
           >
             <PasswordInput text="Confirm Password" />
-          </View>          
-          <SubmitButton />
+          </View>
+          {/* <SubmitButton /> */}
         </View>
         {/* <View>
           <View
@@ -178,4 +181,94 @@ const styles = StyleSheet.create({
   }
 });
 
-export default UserRegistrationScreen;
+export default class UserRegistrationScreen extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
+  state = {
+    index: 0
+  };
+  render() {
+    const Header = props => {
+      return (
+        <View
+          style={{
+            height: 50,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: 16,
+            paddingTop: 0,
+            paddingBottom: 0,
+            borderBottomWidth: 0.2,
+            borderColor: '#c3c3c3'
+          }}
+        >
+          <TouchableWithoutFeedback
+            onPress={() => {
+              if (this.state.index === 1) {
+                this.setState(
+                  {
+                    index: 0
+                  },
+                  () => this._scrollView.scrollTo({ x: 0 })
+                );
+              } else {
+                this.props.navigation.goBack();
+              }
+            }}
+          >
+            <Ionicons name="ios-arrow-back" size={40} color="black" />
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              if (this.state.index === 0) {
+                this.setState(
+                  {
+                    index: 1
+                  },
+                  () => this._scrollView.scrollToEnd()
+                );
+              }
+            }}
+          >
+            <View
+              style={{
+                justifyContent: "center",
+                height: 50,
+                alignItems: "center"
+              }}
+            >
+              <Text>{this.state.index ? "Register" : "Next"}</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      );
+    };
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: "white"
+        }}
+      >
+        <Header />
+        <ScrollView
+          ref={scrollView => (this._scrollView = scrollView)}
+          style={{ flex: 1 }}
+          horizontal={true}
+          showHorizontalScroll={false}
+          scrollEnabled={false}
+        >
+          <View style={{ flex: 1, width }}>
+            <UserRegistrationInfo />
+          </View>
+          <View style={{ flex: 1, width }}>
+            <UserPreferencesScreen />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+}
+
+// export default UserRegistrationInfo;
