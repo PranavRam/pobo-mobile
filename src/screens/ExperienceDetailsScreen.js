@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Image,
@@ -7,85 +7,24 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Dimensions,
-  Text
-} from "react-native";
+  Text,
+  Platform
+} from 'react-native';
 
-import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-navigation";
-import { Transition } from "react-navigation-fluid-transitions";
-import ParallaxScrollView from "react-native-parallax-scroll-view";
-import Masonry from "react-native-masonry";
-import Styleguide from "../theme/Styleguide";
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-navigation';
+import { Transition } from 'react-navigation-fluid-transitions';
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import Styleguide from '../theme/Styleguide';
 
-let SCREEN_WIDTH = Dimensions.get("window").width;
-let SCREEN_HEIGHT = Dimensions.get("window").height;
+let SCREEN_WIDTH = Dimensions.get('window').width;
+let SCREEN_HEIGHT = Dimensions.get('window').height;
 
 let HEADER_MAX_HEIGHT = (SCREEN_HEIGHT * 2) / 3;
 let HEADER_MIN_HEIGHT = 100;
-import ExperienceCard from "../components/ExperienceCard/ExperienceCard";
-import ExperienceInfo from "../components/ExperienceInfo/ExperienceInfo";
-import ExperienceButtons from "../components/ExperienceButtons/ExperienceButtons";
-let data = [
-  {
-    data: {
-      caption: "Summer Recipies",
-      user: {
-        name: "Henry"
-      }
-    },
-    uri:
-      "https://s-media-cache-ak0.pinimg.com/736x/32/7f/d9/327fd98ae0146623ca8954884029297b.jpg",
-    renderFooter: data => {
-      return (
-        <View
-          key="brick-header"
-          style={{
-            backgroundColor: "white",
-            padding: 5,
-            paddingRight: 9,
-            paddingLeft: 9
-          }}
-        >
-          <Text style={{ lineHeight: 20, fontSize: 14 }}>{data.caption}</Text>
-        </View>
-      );
-    },
-    renderHeader: data => {
-      return (
-        <View key="brick-footer" style={styles.headerTop}>
-          <Image
-            source={{
-              uri:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsO3JMW5pmK-pq9g3T-1znMMK8IEELKnasQ6agJANePV7Z0nwp9w"
-            }}
-            style={styles.userPic}
-          />
-          <Text style={styles.userName}>{data.user.name}</Text>
-        </View>
-      );
-    }
-  },
-  {
-    uri:
-      "https://s-media-cache-ak0.pinimg.com/736x/b1/21/df/b121df29b41b771d6610dba71834e512.jpg"
-  },
-  {
-    uri:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQpD8mz-2Wwix8hHbGgR-mCFQVFTF7TF7hU05BxwLVO1PS5j-rZA"
-  },
-  {
-    uri:
-      "https://s-media-cache-ak0.pinimg.com/736x/5a/15/0c/5a150cf9d5a825c8b5871eefbeda8d14.jpg"
-  },
-  {
-    uri:
-      "https://s-media-cache-ak0.pinimg.com/736x/04/63/3f/04633fcc08f9d405064391bd80cb0828.jpg"
-  },
-  {
-    uri:
-      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQRWkuUMpLyu3QnFu5Xsi_7SpbabzRtSis-_QhKas6Oyj3neJoeug"
-  }
-];
+import ExperienceCard from '../components/ExperienceCard/ExperienceCard';
+import ExperienceInfo from '../components/ExperienceInfo/ExperienceInfo';
+import ExperienceButtons from '../components/ExperienceButtons/ExperienceButtons';
 
 const ExperienceDetailScreen = class extends React.Component {
   constructor(props) {
@@ -93,7 +32,6 @@ const ExperienceDetailScreen = class extends React.Component {
     this.state = {
       showImages: false
     };
-
     this.scrollY = new Animated.Value(0);
   }
   closeImage = () => {
@@ -102,7 +40,7 @@ const ExperienceDetailScreen = class extends React.Component {
   };
 
   showOffers = () => {
-    this.props.navigation.navigate("Offer");
+    this.props.navigation.navigate('Offer');
   };
   // componentDidMount() {
   //   setTimeout(() => {
@@ -114,18 +52,19 @@ const ExperienceDetailScreen = class extends React.Component {
   render() {
     const { showImages } = this.state;
     const { scrollY } = this;
+
     const headerHeight = scrollY.interpolate({
       inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
       outputRange: [0, HEADER_MIN_HEIGHT],
-      extrapolate: "clamp"
+      extrapolate: 'clamp'
     });
-    const experience = this.props.navigation.getParam("experience");
+    const experience = this.props.navigation.getParam('experience');
     return (
       <View style={{ flex: 1 }}>
         {/* <SafeAreaView> */}
         <SafeAreaView
           style={{
-            position: "absolute",
+            position: 'absolute',
             bottom: 30,
             left: 0,
             width: SCREEN_WIDTH,
@@ -150,10 +89,10 @@ const ExperienceDetailScreen = class extends React.Component {
           fadeOutForeground={false}
           renderScrollComponent={() => (
             <Animated.ScrollView
-              onMomentumScrollBegin={() => {
-                if (showImages) return;
-                this.setState({ showImages: true });
-              }}
+              // onMomentumScrollBegin={() => {
+              //   if (showImages) return;
+              //   this.setState({ showImages: true });
+              // }}
               // onScrollBeginDrag={() => this.setState({showImages: true})}
               showsVerticalScrollIndicator={false}
               style={{ marginTop: headerHeight }}
@@ -161,13 +100,21 @@ const ExperienceDetailScreen = class extends React.Component {
           )}
           renderFixedHeader={() => (
             <SafeAreaView
-              style={[{ flexDirection: "row", justifyContent: "flex-start" }]}
+              style={[
+                {
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  marginTop: Platform.OS === 'ios' ? 0 : 24
+                }
+              ]}
             >
-              <TouchableWithoutFeedback onPress={() => this.closeImage()}>
-                <View style={[{ marginLeft: 16 }]}>
-                  <Ionicons name="ios-arrow-back" size={48} color="white" />
-                </View>
-              </TouchableWithoutFeedback>
+              <Transition appear="top">
+                <TouchableWithoutFeedback onPress={() => this.closeImage()}>
+                  <View style={[{ marginRight: 16 }]}>
+                    <Ionicons name="ios-close" size={60} color="white" />
+                  </View>
+                </TouchableWithoutFeedback>
+              </Transition>
             </SafeAreaView>
           )}
           renderBackground={() => (
@@ -188,12 +135,12 @@ const ExperienceDetailScreen = class extends React.Component {
                       flex: 1,
                       height: null,
                       width: null,
-                      resizeMode: "cover"
+                      resizeMode: 'cover'
                     }}
                   />
                 </Transition>
               </View>
-              <View>
+              {/* <View>
                 <Transition zIndex={500} shared={`card-${experience.image.id}`}>
                   <View
                     style={{
@@ -207,11 +154,11 @@ const ExperienceDetailScreen = class extends React.Component {
                     }}
                   />
                 </Transition>
-              </View>
+              </View> */}
             </View>
           )}
         >
-          <View style={{ flex: 1, alignItems: "center" }}>
+          <View style={{ flex: 1, alignItems: 'center', paddingBottom: 100 }}>
             {/* <Transition
               zIndex={500}
               shared={`card-${experience.image.id}`}
@@ -232,68 +179,56 @@ const ExperienceDetailScreen = class extends React.Component {
             {/* </Transition> */}
             <View
               style={{
-                borderBottomColor: "#c3c3c3",
+                borderBottomColor: '#c3c3c3',
                 borderBottomWidth: 1,
-                width: "90%"
+                width: '90%'
               }}
             />
+            <ExperienceInfo />
+            <ExperienceInfo />
             <ExperienceInfo />
             <View
               style={{
                 height: 125,
-                width: "100%",
+                width: '100%',
                 padding: 16,
-                flexDirection: "row",
-                justifyContent: "space-between"
+                flexDirection: 'row',
+                justifyContent: 'space-between'
               }}
             >
-              <View style={{ justifyContent: "space-between" }}>
+              <View style={{ justifyContent: 'space-between' }}>
                 <Text style={{ ...Styleguide.typography.subhead }}>
                   Address
                 </Text>
                 <View>
-                  <Text style={{ ...Styleguide.typography.caption }}>BLUE FROG</Text>
-                  <Text style={{ ...Styleguide.typography.caption }}>Mathuradas Mill Compound</Text>
-                  <Text style={{ ...Styleguide.typography.caption }}>Senapati Bapat Marg</Text>
-                  <Text style={{ ...Styleguide.typography.caption }}>Lower Parel Mumbai</Text>
+                  <Text style={{ ...Styleguide.typography.caption }}>
+                    BLUE FROG
+                  </Text>
+                  <Text style={{ ...Styleguide.typography.caption }}>
+                    Mathuradas Mill Compound
+                  </Text>
+                  <Text style={{ ...Styleguide.typography.caption }}>
+                    Senapati Bapat Marg
+                  </Text>
+                  <Text style={{ ...Styleguide.typography.caption }}>
+                    Lower Parel Mumbai
+                  </Text>
                 </View>
               </View>
               <Image
                 style={{ height: 100, width: 150 }}
                 source={{
                   uri:
-                    "https://maps.googleapis.com/maps/api/staticmap?center=BlueFrog+Mumbai&zoom=13&size=150x100&maptype=roadmap%20&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&key=AIzaSyAE-7pcdb40gFiwJUxGC6opityYbZka4Aw"
+                    'https://maps.googleapis.com/maps/api/staticmap?center=BlueFrog+Mumbai&zoom=13&size=150x100&maptype=roadmap%20&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&key=AIzaSyAE-7pcdb40gFiwJUxGC6opityYbZka4Aw'
                 }}
               />
             </View>
-            {showImages ? (
-              <View style={{ height: 250, width: SCREEN_WIDTH, padding: 16 }}>
-                <Masonry bricks={data} />
-              </View>
-            ) : (
-              <Text>Loading Images</Text>
-            )}
           </View>
         </ParallaxScrollView>
       </View>
     );
   }
 };
-
-const myCustomTransitionFunction = transitionInfo => {
-  const { progress, start, end } = transitionInfo;
-  const scaleInterpolation = progress.interpolate({
-    inputRange: [0, start, end, 1],
-    outputRange: [0, 0, 1, 1]
-  });
-  return { opacity: scaleInterpolation };
-};
-// class ExperienceDetailScreen extends React.Component {
-//   static navigationOptions = { header: null };
-//   render() {
-//     return <ExperienceDetail />;
-//   }
-// }
 
 const styles = StyleSheet.create({
   container: {
@@ -308,12 +243,12 @@ const styles = StyleSheet.create({
     flex: 1,
     height: null,
     width: null,
-    resizeMode: "cover",
+    resizeMode: 'cover',
     borderRadius: 20
   },
   map: {
     borderRadius: 5,
-    borderColor: "black",
+    borderColor: 'black',
     borderWidth: 1
   }
 });

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Image,
@@ -9,19 +9,20 @@ import {
   Button,
   Dimensions,
   Text,
-  Animated
-} from "react-native";
-import ExperienceButtons from "../components/ExperienceButtons/ExperienceButtons";
-import { Transition } from "react-navigation-fluid-transitions";
-import HeaderButtons from "react-navigation-header-buttons";
-import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-navigation";
-import ExperienceCard from "../components/ExperienceCard/ExperienceCard";
+  Animated,
+  Platform
+} from 'react-native';
+import ExperienceButtons from '../components/ExperienceButtons/ExperienceButtons';
+import { Transition } from 'react-navigation-fluid-transitions';
+import HeaderButtons from 'react-navigation-header-buttons';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-navigation';
+import ExperienceCard from '../components/ExperienceCard/ExperienceCard';
 
-import Styleguide from "../theme/Styleguide";
+import Styleguide from '../theme/Styleguide';
 
-let SCREEN_WIDTH = Dimensions.get("window").width;
-let SCREEN_HEIGHT = Dimensions.get("window").height;
+let SCREEN_WIDTH = Dimensions.get('window').width;
+let SCREEN_HEIGHT = Dimensions.get('window').height;
 let RATIO = 2 / 3;
 let HEADER_MAX_HEIGHT = (SCREEN_HEIGHT * 2) / 3;
 let HEADER_MIN_HEIGHT = 100;
@@ -29,19 +30,79 @@ const scrollRangeForAnimation = 300;
 const IMAGES = [
   {
     id: 1,
-    src: require("../assets/images/card-image.png")
+    src: require('../assets/images/card-image.png')
   },
   {
     id: 2,
-    src:
-      require("../assets/images/card-image-2.jpg")
+    src: require('../assets/images/card-image-2.jpg')
   },
   {
     id: 3,
-    src:
-      require("../assets/images/card-image-3.jpg")
+    src: require('../assets/images/card-image-3.jpg')
   }
 ];
+
+const myCustomTransitionFunction = transitionInfo => {
+  const {
+    progress,
+    start,
+    end,
+    boundingbox: { y }
+  } = transitionInfo;
+  const scaleInterpolation = progress.interpolate({
+    inputRange: [0, start, end, 1],
+    outputRange: [SCREEN_HEIGHT * 2, SCREEN_HEIGHT * 2, y + 75, y + 75]
+  });
+  return { transform: [{ translateY: scaleInterpolation }] };
+};
+
+const myCustomTransitionFunctionReverse = transitionInfo => {
+  const {
+    metrics,
+    progress,
+    start,
+    end,
+    boundingbox: { y }
+  } = transitionInfo;
+
+  const scaleInterpolation = progress.interpolate({
+    inputRange: [0, start, end, 1],
+    outputRange: [y + 75, y + 75, SCREEN_HEIGHT * 2, SCREEN_HEIGHT * 2]
+  });
+
+  return { transform: [{ translateY: scaleInterpolation }] };
+};
+
+const myCustomTransitionFunction2 = transitionInfo => {
+  const {
+    progress,
+    start,
+    end,
+    boundingbox: { y }
+  } = transitionInfo;
+  const scaleInterpolation = progress.interpolate({
+    inputRange: [0, start, end, 1],
+    outputRange: [SCREEN_HEIGHT * 2, SCREEN_HEIGHT * 2, y + 125, y + 125]
+  });
+  return { transform: [{ translateY: scaleInterpolation }] };
+};
+
+const myCustomTransitionFunctionReverse2 = transitionInfo => {
+  const {
+    metrics,
+    progress,
+    start,
+    end,
+    boundingbox: { y }
+  } = transitionInfo;
+
+  const scaleInterpolation = progress.interpolate({
+    inputRange: [0, start, end, 1],
+    outputRange: [y + 125, y + 125, SCREEN_HEIGHT * 2, SCREEN_HEIGHT * 2]
+  });
+
+  return { transform: [{ translateY: scaleInterpolation }] };
+};
 
 const ExperienceListScreen = class extends React.Component {
   constructor(props) {
@@ -57,11 +118,11 @@ const ExperienceListScreen = class extends React.Component {
   };
 
   showOffers = () => {
-    this.props.navigation.navigate("Offer");
+    this.props.navigation.navigate('Offer');
   };
 
   openImage = id => {
-    this.props.navigation.navigate("ExperienceDetail", {
+    this.props.navigation.navigate('ExperienceDetail', {
       experience: {
         image: IMAGES.find(d => d.id === id)
       }
@@ -75,10 +136,11 @@ const ExperienceListScreen = class extends React.Component {
         <View
           style={{
             height: 50,
-            flexDirection: "row",
-            justifyContent: "space-between",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
             padding: 16,
             paddingTop: 0,
+            marginTop: Platform.OS === 'ios' ? 0 : 24,
             paddingBottom: 0
           }}
         >
@@ -87,7 +149,7 @@ const ExperienceListScreen = class extends React.Component {
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback
             onPress={() => {
-              this.props.navigation.navigate("ExperienceCommited");
+              this.props.navigation.navigate('ExperienceCommited');
             }}
           >
             <Ionicons name="ios-infinite" size={40} color="black" />
@@ -96,14 +158,14 @@ const ExperienceListScreen = class extends React.Component {
       );
     };
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
         <Header />
 
         <View
           style={{
             height: 150,
-            justifyContent: "center",
-            alignItems: "flex-start",
+            justifyContent: 'center',
+            alignItems: 'flex-start',
             padding: 16,
             paddingTop: 8,
             paddingBottom: 8
@@ -124,8 +186,8 @@ const ExperienceListScreen = class extends React.Component {
                 key={image.id}
                 style={{
                   flex: 1,
-                  alignItems: "center",
-                  backgroundColor: "transparent"
+                  alignItems: 'center',
+                  backgroundColor: 'transparent'
                 }}
               >
                 <TouchableWithoutFeedback
@@ -133,14 +195,14 @@ const ExperienceListScreen = class extends React.Component {
                 >
                   <View style={styles.cardContainer}>
                     <Transition zIndex={500} shared={`image-${image.id}`}>
-                      <Image
-                        source={image.src}
-                        style={styles.image}
-                      />
+                      <Image source={image.src} style={styles.image} />
                     </Transition>
                   </View>
                 </TouchableWithoutFeedback>
-                <Transition zIndex={1000} shared={`card-${image.id}`}>
+                <Transition
+                  appear={myCustomTransitionFunction}
+                  disappear={myCustomTransitionFunctionReverse}
+                >
                   <ExperienceCard
                     id={`${image.id}`}
                     style={{
@@ -150,8 +212,8 @@ const ExperienceListScreen = class extends React.Component {
                       borderTopRightRadius: 20,
                       height: 100,
                       borderWidth: 0.5,
-                      borderColor: "#c3c3c3",
-                      borderBottomWidth: 0,
+                      borderColor: '#c3c3c3',
+                      borderBottomWidth: 0
                     }}
                   />
                 </Transition>
@@ -163,9 +225,10 @@ const ExperienceListScreen = class extends React.Component {
                     borderBottomLeftRadius: 20,
                     borderBottomRightRadius: 20,
                     borderWidth: 0.5,
-                    borderColor: "#c3c3c3",
+                    borderColor: '#c3c3c3',
                     borderTopWidth: 0,
-                    backgroundColor: "white"
+                    backgroundColor: 'white',
+                    opacity: 0
                   }}
                 >
                   <ExperienceButtons
@@ -183,6 +246,32 @@ const ExperienceListScreen = class extends React.Component {
                     ]}
                   /> */}
                 </View>
+                <Transition
+                  appear={myCustomTransitionFunction2}
+                  disappear={myCustomTransitionFunctionReverse2}
+                >
+                  <View
+                    style={{
+                      height: 50,
+                      width: CARD_WIDTH * 0.8,
+                      top: -125
+                    }}
+                  >
+                    <ExperienceButtons
+                      id={`${image.id}-dummy`}
+                      buttonSize={40}
+                      style={{
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20,
+                        borderWidth: 0.5,
+                        borderColor: '#c3c3c3',
+                        borderTopWidth: 0,
+                        backgroundColor: 'white'
+                      }}
+                      callbacks={[() => {}, this.showOffers, () => {}]}
+                    />
+                  </View>
+                </Transition>
               </View>
             );
           })}
@@ -209,7 +298,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: null,
     width: null,
-    resizeMode: "cover",
+    resizeMode: 'cover',
     borderRadius: 20
   }
 });

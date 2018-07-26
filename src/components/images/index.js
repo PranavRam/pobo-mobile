@@ -6,20 +6,22 @@ const creative2 = require('../../assets/images/card-image-2.jpg');
 const creative3 = require('../../assets/images/card-image-3.jpg');
 
 const poboSimpleLogo = require('../../assets/images/pobo-simple-logo/logo.png');
-
+const poboMainLogo = require('../../assets/images/pobo/pobo.png')
 export default class Images {
   static offerLogo = offerLogo;
   static creative1 = creative1;
   static creative2 = creative2;
   static creative3 = creative3;
   static poboSimpleLogo = poboSimpleLogo;
+  static poboMainLogo = poboMainLogo
   static downloadAsync() {
     return [
       Asset.loadAsync(Images.offerLogo),
       Asset.loadAsync(Images.creative1),
       Asset.loadAsync(Images.creative2),
       Asset.loadAsync(Images.creative3),
-      Asset.loadAsync(Images.poboSimpleLogo)
+      Asset.loadAsync(Images.poboSimpleLogo),
+      Asset.loadAsync(Images.poboMainLogo)
     ];
   }
 }
