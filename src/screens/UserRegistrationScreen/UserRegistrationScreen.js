@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Image,
@@ -10,20 +10,23 @@ import {
   Button,
   ScrollView,
   Dimensions
-} from "react-native";
-import HeaderButtons from "react-navigation-header-buttons";
-import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-navigation";
-import UserPreferencesScreen from '../UserPreferencesScreen/UserPreferencesScreen'
-
-const { width } = Dimensions.get("window");
-
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-navigation';
+import UserPreferencesScreen from '../UserPreferencesScreen/UserPreferencesScreen';
+import Spacer from 'react-native-spacer';
+const { width } = Dimensions.get('window');
+import HeaderButtons, {
+  HeaderButton,
+  Item
+} from 'react-navigation-header-buttons';
 const UserRegistrationInfo = class extends React.Component {
   render() {
     const EmailInput = props => {
       return (
         <View style={styles.inputContainer}>
           <TextInput
+            underlineColorAndroid="rgba(0,0,0,0)"
             style={styles.input}
             placeholder={props.text.toUpperCase()}
           />
@@ -35,6 +38,7 @@ const UserRegistrationInfo = class extends React.Component {
       return (
         <View style={styles.inputContainer}>
           <TextInput
+            underlineColorAndroid="rgba(0,0,0,0)"
             style={styles.input}
             placeholder={props.text.toUpperCase()}
           />
@@ -46,7 +50,7 @@ const UserRegistrationInfo = class extends React.Component {
       return (
         <TouchableOpacity
           style={styles.submitButton}
-          onPress={() => this.props.navigation.navigate("App")}
+          onPress={() => this.props.navigation.navigate('App')}
         >
           {/* <View > */}
           <Text style={styles.submitButtonText}>REGISTER</Text>
@@ -70,44 +74,47 @@ const UserRegistrationInfo = class extends React.Component {
 
     return (
       <SafeAreaView style={styles.container}>
-        <View style={{ height: 100, alignItems: "center" }}>
-          <Ionicons name="ios-person-add" size={60} color="black" />
-          <Text style={{ fontSize: 10 }}>ADD A PROFILE PICTURE</Text>
-        </View>
-        <View style={{ alignItems: "center", marginTop: 20, marginBottom: 20 }}>
-          <View
-            style={{
-              width: 180,
-              alignItems: "center",
-              marginBottom: 20,
-              marginTop: 20
-            }}
-          >
-            <EmailInput text="Email" />
+        <Spacer spaceMargin={64}>
+          <View style={{ height: 100, alignItems: 'center' }}>
+            <Ionicons name="ios-person-add" size={60} color="black" />
+            <Text style={{ fontSize: 10 }}>ADD A PROFILE PICTURE</Text>
           </View>
           <View
-            style={{
-              width: 180,
-              alignItems: "center",
-              marginBottom: 20,
-              marginTop: 20
-            }}
+            style={{ alignItems: 'center', marginTop: 20, marginBottom: 20 }}
           >
-            <PasswordInput text="Password" />
+            <View
+              style={{
+                width: 180,
+                alignItems: 'center',
+                marginBottom: 20,
+                marginTop: 20
+              }}
+            >
+              <EmailInput text="Email" />
+            </View>
+            <View
+              style={{
+                width: 180,
+                alignItems: 'center',
+                marginBottom: 20,
+                marginTop: 20
+              }}
+            >
+              <PasswordInput text="Password" />
+            </View>
+            <View
+              style={{
+                width: 180,
+                alignItems: 'center',
+                marginBottom: 20,
+                marginTop: 20
+              }}
+            >
+              <PasswordInput text="Confirm Password" />
+            </View>
+            {/* <SubmitButton /> */}
           </View>
-          <View
-            style={{
-              width: 180,
-              alignItems: "center",
-              marginBottom: 20,
-              marginTop: 20
-            }}
-          >
-            <PasswordInput text="Confirm Password" />
-          </View>
-          {/* <SubmitButton /> */}
-        </View>
-        {/* <View>
+          {/* <View>
           <View
             style={{
               width: 180,
@@ -127,6 +134,7 @@ const UserRegistrationInfo = class extends React.Component {
             <SocialMediaLogin text={"linkedin"} />
           </View>
         </View> */}
+        </Spacer>
       </SafeAreaView>
     );
   }
@@ -135,128 +143,150 @@ const UserRegistrationInfo = class extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white"
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
   },
   logo: {
     width: 180,
     height: 90,
-    overflow: "hidden",
+    overflow: 'hidden',
     marginTop: 100
   },
   inputContainer: {
-    width: "100%",
+    width: '100%',
     borderBottomWidth: 0.5
   },
   input: {
-    textAlign: "center",
+    textAlign: 'center',
     height: 40
   },
   submitButton: {
     height: 35,
     width: 90,
-    backgroundColor: "#353535",
+    backgroundColor: '#353535',
     borderRadius: 3,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   submitButtonText: {
-    color: "white",
+    color: 'white',
     fontSize: 10
   },
   socialButtons: {
     height: 35,
     width: 190,
-    backgroundColor: "#353535",
+    backgroundColor: '#353535',
     borderRadius: 3,
-    justifyContent: "space-around",
-    alignItems: "center",
-    flexDirection: "row"
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'row'
   },
   socialButtonsText: {
-    color: "white",
+    color: 'white',
     flex: 3,
     fontSize: 10
   }
 });
 
+class LogoTitle extends React.Component {
+  render() {
+    return (
+      <Image
+        source={require('../../assets/images/pobo-simple-logo/logo.png')}
+        style={{ height: 30, width: 70 }}
+      />
+    );
+  }
+}
+
+const IoniconsHeaderButton = props => (
+  // the `passMeFurther` variable here contains props from <Item .../> as well as <HeaderButtons ... />
+  // and it is important to pass those props to `HeaderButton`
+  // then you may add some information like icon size or color (if you use icons)
+  <HeaderButton {...props} IconComponent={Ionicons} iconSize={23} />
+);
+
 export default class UserRegistrationScreen extends React.Component {
-  static navigationOptions = {
-    header: null
+  static navigationOptions = ({ navigation, navigation: { state } }) => {
+    return {
+      headerTitle: <LogoTitle />,
+      headerStyle: {
+        backgroundColor: 'white'
+      },
+      headerTintColor: 'black',
+      headerRight: (
+        <TouchableWithoutFeedback
+          onPress={navigation.getParam('rightButtonFunc')}
+        >
+          <View
+            style={{
+              justifyContent: 'center',
+              height: 50,
+              alignItems: 'center',
+              marginRight: 8
+            }}
+          >
+            <Text>{navigation.getParam('registrationText')}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      ),
+      headerLeft: (
+        <HeaderButtons left HeaderButtonComponent={IoniconsHeaderButton}>
+          <Item
+            title="Back"
+            iconName="ios-arrow-back"
+            onPress={navigation.getParam('leftButtonFunc')}
+          />
+        </HeaderButtons>
+      )
+    };
   };
   state = {
     index: 0
   };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.navigation.setParams({
+        registrationText: 'Next',
+        rightButtonFunc: this._navToUserPrefs,
+        leftButtonFunc: () => this.props.navigation.goBack()
+      });
+    }, 100);
+  }
+
+  _navToUserPrefs = () => {
+    this.setState({ index: 1 }, () => this._scrollView.scrollToEnd());
+    this.props.navigation.setParams({
+      registrationText: 'Register',
+      rightButtonFunc: () => {},
+      leftButtonFunc: this._navToUserRegistration
+    });
+  };
+
+  _navToUserRegistration = () => {
+    this.setState({ index: 0 }, () => this._scrollView.scrollTo({ x: 0 }));
+    this.props.navigation.setParams({
+      registrationText: 'Next',
+      rightButtonFunc: this._navToUserPrefs,
+      leftButtonFunc: () => this.props.navigation.goBack()
+    });
+  };
+
   render() {
-    const Header = props => {
-      return (
-        <View
-          style={{
-            height: 50,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            padding: 16,
-            paddingTop: 0,
-            paddingBottom: 0,
-            borderBottomWidth: 0.2,
-            borderColor: '#c3c3c3'
-          }}
-        >
-          <TouchableWithoutFeedback
-            onPress={() => {
-              if (this.state.index === 1) {
-                this.setState(
-                  {
-                    index: 0
-                  },
-                  () => this._scrollView.scrollTo({ x: 0 })
-                );
-              } else {
-                this.props.navigation.goBack();
-              }
-            }}
-          >
-            <Ionicons name="ios-arrow-back" size={40} color="black" />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              if (this.state.index === 0) {
-                this.setState(
-                  {
-                    index: 1
-                  },
-                  () => this._scrollView.scrollToEnd()
-                );
-              }
-            }}
-          >
-            <View
-              style={{
-                justifyContent: "center",
-                height: 50,
-                alignItems: "center"
-              }}
-            >
-              <Text>{this.state.index ? "Register" : "Next"}</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-      );
-    };
     return (
       <SafeAreaView
         style={{
           flex: 1,
-          backgroundColor: "white"
+          backgroundColor: 'white'
         }}
       >
-        <Header />
         <ScrollView
           ref={scrollView => (this._scrollView = scrollView)}
           style={{ flex: 1 }}
           horizontal={true}
-          showHorizontalScroll={false}
+          showsHorizontalScrollIndicator={false}
           scrollEnabled={false}
         >
           <View style={{ flex: 1, width }}>

@@ -29,18 +29,17 @@ const scrollRangeForAnimation = 300;
 const IMAGES = [
   {
     id: 1,
-    src:
-      "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/1.jpg"
+    src: require("../assets/images/card-image.png")
   },
   {
     id: 2,
     src:
-      "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/2.jpg"
+      require("../assets/images/card-image-2.jpg")
   },
   {
     id: 3,
     src:
-      "https://raw.githubusercontent.com/nathvarun/React-Native-Layout-Tutorial-Series/master/Project%20Files/14.%20Apple%20App%20of%20the%20day/%231.%20Basic%20Layout/assets/3.jpg"
+      require("../assets/images/card-image-3.jpg")
   }
 ];
 
@@ -135,9 +134,7 @@ const ExperienceListScreen = class extends React.Component {
                   <View style={styles.cardContainer}>
                     <Transition zIndex={500} shared={`image-${image.id}`}>
                       <Image
-                        source={{
-                          uri: image.src
-                        }}
+                        source={image.src}
                         style={styles.image}
                       />
                     </Transition>

@@ -183,9 +183,7 @@ const ExperienceDetailScreen = class extends React.Component {
                   shared={`image-${experience.image.id}`}
                 >
                   <Image
-                    source={{
-                      uri: experience.image.src
-                    }}
+                    source={experience.image.src}
                     style={{
                       flex: 1,
                       height: null,

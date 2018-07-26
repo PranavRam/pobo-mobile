@@ -5793,6 +5793,10 @@ react-native-scripts@1.14.0:
     rimraf "^2.6.1"
     xdl "48.1.4"
 
+react-native-spacer@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-spacer/-/react-native-spacer-1.3.0.tgz#77198822a5ccc2da4ba73108f12dabeb29ac92b6"
+
 react-native-svg-web@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-native-svg-web/-/react-native-svg-web-1.0.1.tgz#16e1784077b6e5b6c7ebd9c3829e6684211cba99"
@@ -5807,9 +5811,9 @@ react-native-svg@6.2.2:
     lodash "^4.16.6"
     pegjs "^0.10.0"
 
-"react-native-swiper@git+https://github.com/jamiesonbates/react-native-swiper.git":
+react-native-swiper@^1.5.13:
   version "1.5.13"
-  resolved "git+https://github.com/jamiesonbates/react-native-swiper.git#aa96be8f8d78b237b9b7839f88f7210c84fc615a"
+  resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.13.tgz#fa695cd4ab77b9a9df2d2bfee38ea7274dd07a2e"
   dependencies:
     prop-types "^15.5.10"
 
@@ -5923,9 +5927,9 @@ react-navigation-fluid-transitions@^0.2.2:
     lodash.sortby "*"
     prop-types "^15.6.0"
 
-react-navigation-header-buttons@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/react-navigation-header-buttons/-/react-navigation-header-buttons-1.2.1.tgz#847e25da0422068f6549b477f17360dae7f383b1"
+react-navigation-header-buttons@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-navigation-header-buttons/-/react-navigation-header-buttons-2.0.1.tgz#f47f1414d467b585c465310ee9b5675bb466e8d3"
   dependencies:
     react-native-platform-touchable "^1.1.1"
 

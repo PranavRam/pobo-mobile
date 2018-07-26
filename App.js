@@ -122,7 +122,7 @@ const CustomDrawerContentComponent = props => {
         <View style={{ padding: 16, paddingTop: 0 }}>
           <View>
             <Image
-              source={require("./src/assets/images/pobo-sidemenu/logo.png")}
+              source={require("./src/assets/images/pobo-simple-logo/logo.png")}
               style={{ height: 30, width: 70 }}
             />
           </View>
@@ -163,6 +163,16 @@ const AppStack = createSwitchNavigator(
   }
 );
 
+function cacheImages(images) {
+  return images.map(image => {
+    if (typeof image === 'string') {
+      return Image.prefetch(image);
+    } else {
+      return Asset.fromModule(image).downloadAsync();
+    }
+  });
+}
+
 export default class App extends React.Component {
   state = {
     appReady: false
@@ -172,11 +182,19 @@ export default class App extends React.Component {
       appReady: true
     });
   };
+
+  
   async componentDidMount() {
     // StatusBar.setBarStyle("dark-content");
     // if (Platform.OS === "android") {
     //     StatusBar.setBackgroundColor("white");
     // }
+
+    // const imageAssets = cacheImages([
+    //   'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
+    //   require('./assets/images/circle.jpg'),
+    // ]);
+
     const fonts = Font.loadAsync({
       "ProximaNova-ExtraBold": ProximaNovaExtraBold,
       "Lato-Regular": LatoRegular

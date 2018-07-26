@@ -16,6 +16,51 @@ import { SafeAreaView } from "react-navigation";
 
 import Styleguide from "../../theme/Styleguide";
 
+const data = [
+  {
+    title: "Nightlife",
+    categories: ["Drinking", "Clubbing", "Live Performances", "Dining"]
+  },
+  {
+    title: "Health & Wellness",
+    categories: ["Gym", "Yoga", "Martial Arts", "Boxing"]
+  },
+  {
+    title: "Knowledge & Skill",
+    categories: ["Drinking", "Clubbing", "Live Performances", "Dining"]
+  },
+  {
+    title: "Networking",
+    categories: ["Drinking", "Clubbing", "Live Performances", "Dining"]
+  }
+];
+
+const PreferenceCategory = props => {
+  return (
+    <View key={props.title}>
+      <View
+        style={{ width: 68, height: 68, borderRadius: 34, overflow: "hidden" }}
+      >
+        <Image
+          style={styles.image}
+          source={require("../../assets/images/4.jpg")}
+        />
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          bottom: -10,
+          left: 48,
+          backgroundColor: "white",
+          borderRadius: 15,
+          overflow: 'hidden'
+        }}
+      >
+        <Ionicons name="ios-checkmark-circle-outline" size={30} color="black" />
+      </View>
+    </View>
+  );
+};
 const PreferenceRow = props => {
   return (
     <View style={styles.preferenceContainer}>
@@ -60,17 +105,39 @@ const PreferenceRow = props => {
           {/* </View> */}
         </TouchableWithoutFeedback>
       </View>
+      <ScrollView
+        style={{
+          flex: 1,
+          marginRight: -16,
+          marginLeft: -16
+        }}
+        contentContainerStyle={{
+          paddingTop: 16,
+          paddingBottom: 16,
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+      >
+        {props.categories.map(category => (
+          <View key={category} style={{ marginLeft: 16, marginRight: 16 }}>
+            <PreferenceCategory title={category} />
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 };
 const UserPreferencesScreen = class extends React.Component {
   render() {
+    const PreferencesList = data.map(d => (
+      <PreferenceRow key={d.title} title={d.title} categories={d.categories} />
+    ));
     return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
-        <PreferenceRow title="Nightlife" />
-        <PreferenceRow title="Health & Wellness" />
-        <PreferenceRow title="Knowledge & Skill" />
-      </View>
+      <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
+        {PreferencesList}
+      </ScrollView>
     );
   }
 };
@@ -81,7 +148,7 @@ const styles = StyleSheet.create({
   },
   preferenceContainer: {
     padding: Styleguide.spacing.small,
-    height: 216 - Styleguide.spacing.small
+    height: 180
   },
   preferenceTitle: {
     ...Styleguide.typography.title3
@@ -89,9 +156,7 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     height: null,
-    width: null,
-    resizeMode: "cover",
-    borderRadius: 20
+    width: null
   }
 });
 

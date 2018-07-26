@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Image,
@@ -7,11 +7,11 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   Text
-} from "react-native";
-import HeaderButtons from "react-navigation-header-buttons";
-import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-navigation";
-
+} from 'react-native';
+import HeaderButtons from 'react-navigation-header-buttons';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-navigation';
+import Spacer from 'react-native-spacer';
 const SignInScreen = class extends React.Component {
   static navigationOptions = {
     header: null
@@ -20,7 +20,11 @@ const SignInScreen = class extends React.Component {
     const EmailInput = props => {
       return (
         <View style={styles.inputContainer}>
-          <TextInput style={styles.input} placeholder={"Email".toUpperCase()} />
+          <TextInput
+            underlineColorAndroid="rgba(0,0,0,0)"
+            style={styles.input}
+            placeholder={'Email'.toUpperCase()}
+          />
         </View>
       );
     };
@@ -29,8 +33,9 @@ const SignInScreen = class extends React.Component {
       return (
         <View style={styles.inputContainer}>
           <TextInput
+            underlineColorAndroid="rgba(0,0,0,0)"
             style={styles.input}
-            placeholder={"Password".toUpperCase()}
+            placeholder={'Password'.toUpperCase()}
           />
         </View>
       );
@@ -40,7 +45,7 @@ const SignInScreen = class extends React.Component {
       return (
         <TouchableOpacity
           style={styles.submitButton}
-          onPress={() => this.props.navigation.navigate("App")}
+          onPress={() => this.props.navigation.navigate('App')}
         >
           {/* <View > */}
           <Text style={styles.submitButtonText}>SIGN IN</Text>
@@ -64,67 +69,72 @@ const SignInScreen = class extends React.Component {
 
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.logo}>
-          <Image
-            source={require("../../assets/images/pobo/pobo.png")}
-            style={{ flex: 1, height: null, width: null }}
-          />
-        </View>
-        <View style={{ alignItems: "center", marginTop: 50, marginBottom: 20 }}>
-          <View
-            style={{
-              width: 180,
-              alignItems: "center",
-              marginBottom: 20,
-              marginTop: 20
-            }}
-          >
-            <EmailInput />
+        <Spacer spaceMargin={10}>
+          <View style={styles.logo}>
+            <Image
+              source={require('../../assets/images/pobo/pobo.png')}
+              style={{ flex: 1, height: null, width: null }}
+            />
           </View>
           <View
-            style={{
-              width: 180,
-              alignItems: "center",
-              marginBottom: 20,
-              marginTop: 20
-            }}
+            style={{ alignItems: 'center', marginTop: 50, marginBottom: 20 }}
           >
-            <PasswordInput />
+            <View
+              style={{
+                width: 180,
+                alignItems: 'center',
+                marginBottom: 20,
+                marginTop: 20
+              }}
+            >
+              <EmailInput />
+            </View>
+            <View
+              style={{
+                width: 180,
+                alignItems: 'center',
+                marginBottom: 20,
+                marginTop: 20
+              }}
+            >
+              <PasswordInput />
+            </View>
+            <SubmitButton />
           </View>
-          <SubmitButton />
-        </View>
+        </Spacer>
+
         <View>
           <View
             style={{
               width: 180,
-              alignItems: "center",
+              alignItems: 'center',
               marginBottom: 8
             }}
           >
-            <SocialMediaLogin text={"facebook"} />
+            <SocialMediaLogin text={'facebook'} />
           </View>
           <View
             style={{
               width: 180,
-              alignItems: "center",
+              alignItems: 'center',
               marginBottom: 20
             }}
           >
-            <SocialMediaLogin text={"linkedin"} />
+            <SocialMediaLogin text={'linkedin'} />
           </View>
         </View>
-        <View style={{ alignItems: "center", marginTop: 10 }}>
+        <View style={{ alignItems: 'center', marginTop: 10 }}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("UserRegistration")}
+            onPress={() => this.props.navigation.navigate('UserRegistration')}
           >
             <Text style={{ marginBottom: 10, fontSize: 12 }}>
               NEW HERE? SIGN UP
             </Text>
           </TouchableOpacity>
-          <Text style={{ fontSize: 10 }}>FORGOT PASSWORD</Text>
+          {/* <Text style={{ fontSize: 10 }}>FORGOT PASSWORD</Text> */}
         </View>
         <View>
-          <Text style={{ color: "#c3c3c3", fontSize: 10 }}>
+          <Text style={{ color: '#c3c3c3', fontSize: 10, marginBottom: 8 }}>
             TERMS & CONDITIONS
           </Text>
         </View>
@@ -136,47 +146,47 @@ const SignInScreen = class extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "white"
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white'
   },
   logo: {
     width: 180,
     height: 90,
-    overflow: "hidden",
+    overflow: 'hidden',
     marginTop: 100
   },
   inputContainer: {
-    width: "100%",
+    width: '100%',
     borderBottomWidth: 0.5
   },
   input: {
-    textAlign: "center",
+    textAlign: 'center',
     height: 40
   },
   submitButton: {
     height: 35,
     width: 90,
-    backgroundColor: "#353535",
+    backgroundColor: '#353535',
     borderRadius: 3,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   submitButtonText: {
-    color: "white",
+    color: 'white',
     fontSize: 10
   },
   socialButtons: {
     height: 35,
     width: 190,
-    backgroundColor: "#353535",
+    backgroundColor: '#353535',
     borderRadius: 3,
-    justifyContent: "space-around",
-    alignItems: "center",
-    flexDirection: "row"
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'row'
   },
   socialButtonsText: {
-    color: "white",
+    color: 'white',
     flex: 3,
     fontSize: 10
   }
